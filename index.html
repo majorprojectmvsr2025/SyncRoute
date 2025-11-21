@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SyncRoute - AI-Powered Carpool Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { 500: '#0ea5e9', 600: '#0284c7', 700: '#0369a1' },
+                        accent: { 500: '#10b981', 600: '#059669' },
+                        dark: { 700: '#334155', 800: '#1e293b', 900: '#0f172a', 950: '#020617' }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-effect { backdrop-filter: blur(16px); background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(148, 163, 184, 0.1); }
+        .glass-card { backdrop-filter: blur(12px); background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(148, 163, 184, 0.1); }
+        .gradient-text { background: linear-gradient(135deg, #0ea5e9, #34d399); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .card-hover { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(14, 165, 233, 0.25); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #0ea5e9, #34d399); border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-dark-950 text-gray-100">
+    <!-- Navigation -->
+    <nav class="sticky top-0 glass-effect border-b border-dark-700/30 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-accent-500 rounded-xl flex items-center justify-center">
+                        <span class="text-white font-bold text-lg">SR</span>
+                    </div>
+                    <span class="text-xl font-bold gradient-text">SyncRoute</span>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#features" class="text-gray-300 hover:text-primary-400 transition-all">Features</a>
+                    <a href="#team" class="text-gray-300 hover:text-primary-400 transition-all">Team</a>
+                    <a href="#tech" class="text-gray-300 hover:text-primary-400 transition-all">Technology</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+            <h1 class="text-6xl font-bold text-white mb-6">SyncRoute</h1>
+            <p class="text-2xl text-gray-300 mb-4">AI-Powered Carpool Platform</p>
+            <p class="text-lg text-gray-400 max-w-3xl mx-auto mb-8">
+                Next-generation ride-sharing platform connecting drivers with riders through intelligent matching, 
+                real-time optimization, and sustainable travel solutions.
+            </p>
+            <div class="flex justify-center gap-4">
+                <a href="#team" class="px-8 py-3 bg-gradient-to-r from-primary-500 to-primary-600 rounded-lg font-semibold hover:shadow-lg transition-all">
+                    View Team
+                </a>
+                <a href="#features" class="px-8 py-3 bg-dark-800 border border-primary-500/30 rounded-lg font-semibold hover:bg-dark-700 transition-all">
+                    Explore Features
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Core Value Propositions -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-white mb-4">Core Value Propositions</h2>
+            <p class="text-gray-400">What makes SyncRoute different</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="glass-card p-8 rounded-2xl text-center card-hover">
+                <div class="text-5xl mb-4">🤖</div>
+                <h3 class="text-xl font-bold text-white mb-3">Smart AI Matching</h3>
+                <p class="text-gray-300">Intelligent ride matching based on routes, preferences, and compatibility with 98% accuracy</p>
+            </div>
+            <div class="glass-card p-8 rounded-2xl text-center card-hover">
+                <div class="text-5xl mb-4">📍</div>
+                <h3 class="text-xl font-bold text-white mb-3">Real-time Optimization</h3>
+                <p class="text-gray-300">Dynamic route optimization with live GPS tracking and traffic-aware rerouting</p>
+            </div>
+            <div class="glass-card p-8 rounded-2xl text-center card-hover">
+                <div class="text-5xl mb-4">🔒</div>
+                <h3 class="text-xl font-bold text-white mb-3">Secure & Safe</h3>
+                <p class="text-gray-300">Identity verification, SOS features, and comprehensive safety measures</p>
+            </div>
+            <div class="glass-card p-8 rounded-2xl text-center card-hover">
+                <div class="text-5xl mb-4">💰</div>
+                <h3 class="text-xl font-bold text-white mb-3">Automated Payments</h3>
+                <p class="text-gray-300">Transparent cost splitting with automated fare calculation and secure transactions</p>
+            </div>
+            <div class="glass-card p-8 rounded-2xl text-center card-hover">
+                <div class="text-5xl mb-4">🌱</div>
+                <h3 class="text-xl font-bold text-white mb-3">Eco-Impact Tracking</h3>
+                <p class="text-gray-300">CO₂ savings tracking with gamification, badges, and environmental impact metrics</p>
+            </div>
+            <div class="glass-card p-8 rounded-2xl text-center card-hover">
+                <div class="text-5xl mb-4">🏢</div>
+                <h3 class="text-xl font-bold text-white mb-3">Group Carpooling</h3>
+                <p class="text-gray-300">Organizational features for companies, colleges, and communities</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div id="features" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-white mb-4">Complete Feature Set</h2>
+            <p class="text-gray-400">Everything you need for a seamless carpooling experience</p>
+        </div>
+
+      
+  <!-- User Features -->
+        <div class="glass-card p-8 rounded-2xl mb-8">
+            <h3 class="text-2xl font-bold text-white mb-6">👤 User Features</h3>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-dark-800/50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-primary-400 mb-3">Registration & Onboarding</h4>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li>• Multi-step account creation with role selection</li>
+                        <li>• OTP verification via SMS and email</li>
+                        <li>• Profile setup with photo upload</li>
+                        <li>• KYC identity verification with AI face matching</li>
+                        <li>• Payment method integration (Stripe/Razorpay)</li>
+                    </ul>
+                </div>
+                <div class="bg-dark-800/50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-primary-400 mb-3">Profile Management</h4>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li>• Customizable user preferences and settings</li>
+                        <li>• Emergency contact management</li>
+                        <li>• Privacy controls and data management</li>
+                        <li>• Verification badges and trust indicators</li>
+                        <li>• Multi-language support (8+ languages)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rider Features -->
+        <div class="glass-card p-8 rounded-2xl mb-8">
+            <h3 class="text-2xl font-bold text-white mb-6">🚗 Rider Features</h3>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-dark-800/50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-blue-400 mb-3">Search & Discovery</h4>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li>• Location autocomplete with maps</li>
+                        <li>• Date and time picker</li>
+                        <li>• AI-powered ride matching (95%+ accuracy)</li>
+                        <li>• Map and list view toggle</li>
+                        <li>• Advanced filters (price, time, preferences)</li>
+                        <li>• Save favorite routes</li>
+                    </ul>
+                </div>
+                <div class="bg-dark-800/50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-blue-400 mb-3">Booking & Payment</h4>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li>• View detailed ride information</li>
+                        <li>• Driver profiles with ratings & reviews</li>
+                        <li>• Instant or manual booking approval</li>
+                        <li>• Secure payment authorization</li>
+                        <li>• Automatic fare splitting</li>
+                        <li>• Digital receipts and history</li>
+                    </ul>
+                </div>
+                <div class="bg-dark-800/50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-blue-400 mb-3">During Trip</h4>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li>• Real-time GPS tracking</li>
+                        <li>• Live ETA updates (every 5-10 seconds)</li>
+                        <li>• In-app messaging with privacy masking</li>
+                        <li>• Share trip with emergency contacts</li>
+                        <li>• SOS emergency button</li>
+                        <li>• Rate and review after completion</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Driver Features -->
+        <div class="glass-card p-8 rounded-2xl mb-8">
+            <h3 class="text-2xl font-bold text-white mb-6">🚙 Driver Features</h3>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-dark-800/50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-green-400 mb-3">Trip Management</h4>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li>• Post trips with multi-step wizard</li>
+                        <li>• Route selection with waypoints</li>
+                        <li>• AI-suggested pricing</li>
+                        <li>• Set rider preferences and filters</li>
+                        <li>• Recurring trip scheduling</li>
+                        <li>• Instant or manual booking approval</li>
+                    </ul>
+                </div>
+                <div class="bg-dark-800/50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-green-400 mb-3">Navigation & Tracking</h4>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li>• Turn-by-turn navigation</li>
+                        <li>• Optimized pickup/dropoff order</li>
+                        <li>• Real-time traffic updates</li>
+                        <li>• Dynamic rerouting</li>
+                        <li>• Pickup/dropoff confirmations</li>
+                        <li>• No-show handling</li>
+                    </ul>
+                </div>
+                <div class="bg-dark-800/50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-green-400 mb-3">Earnings & Analytics</h4>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li>• Automated fare collection</li>
+                        <li>• Instant or scheduled payouts</li>
+                        <li>• Earnings dashboard with statistics</li>
+                        <li>• Trip history and receipts</li>
+                        <li>• Performance metrics</li>
+                        <li>• Tax documentation support</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Features -->
+        <div class="glass-card p-8 rounded-2xl mb-8">
+            <h3 class="text-2xl font-bold text-white mb-6">⚡ Advanced Features</h3>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-dark-800/50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-purple-400 mb-3">🤖 AI & Machine Learning</h4>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li>• Intelligent ride matching algorithm (98% accuracy)</li>
+                        <li>• Route compatibility scoring</li>
+                        <li>• Preference learning and personalization</li>
+                        <li>• Demand forecasting and dynamic pricing</li>
+                        <li>• Fraud detection and prevention</li>
+                        <li>• Predictive ETA calculations</li>
+                    </ul>
+                </div>
+                <div class="bg-dark-800/50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-purple-400 mb-3">📍 Real-Time Optimization</h4>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li>• Live GPS tracking with 5-second updates</li>
+                        <li>• Traffic-aware dynamic rerouting</li>
+                        <li>• Optimal pickup order calculation</li>
+                        <li>• Smart meeting point suggestions</li>
+                        <li>• Real-time ETA updates for all riders</li>
+                        <li>• Automatic delay notifications</li>
+                    </ul>
+                </div>
+                <div class="bg-dark-800/50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-purple-400 mb-3">💬 Communication</h4>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li>• Real-time in-app messaging</li>
+                        <li>• Phone number privacy masking</li>
+                        <li>• Quick message templates</li>
+                        <li>• Read receipts and typing indicators</li>
+                        <li>• Push notifications (FCM)</li>
+                        <li>• SMS and email notifications</li>
+                    </ul>
+                </div>
+                <div class="bg-dark-800/50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-purple-400 mb-3">🚨 Safety & Security</h4>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li>• KYC identity verification (AI-powered)</li>
+                        <li>• SOS emergency button with live location</li>
+                        <li>• Trip sharing with emergency contacts</li>
+                        <li>• Incident reporting system</li>
+                        <li>• Safety check-ins during trips</li>
+                        <li>• 24/7 support and moderation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Group Features -->
+        <div class="glass-card p-8 rounded-2xl mb-8">
+            <h3 class="text-2xl font-bold text-white mb-6">🏢 Group & Organization Features</h3>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-dark-800/50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-yellow-400 mb-3">Group Management</h4>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li>• Create organization profiles</li>
+                        <li>• Bulk member invitations</li>
+                        <li>• Manual or auto-approval</li>
+                        <li>• Member search and filtering</li>
+                        <li>• Group-specific rules and settings</li>
+                        <li>• Private carpool circles</li>
+                    </ul>
+                </div>
+                <div class="bg-dark-800/50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-yellow-400 mb-3">Group Rides</h4>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li>• Post group-exclusive rides</li>
+                        <li>• Recurring daily/weekly schedules</li>
+                        <li>• Subscription-based booking</li>
+                        <li>• Group discounts and pricing</li>
+                        <li>• Event shuttle coordination</li>
+                        <li>• Common route optimization</li>
+                    </ul>
+                </div>
+                <div class="bg-dark-800/50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-yellow-400 mb-3">Analytics & Reporting</h4>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li>• Group dashboard with statistics</li>
+                        <li>• CO₂ savings tracking</li>
+                        <li>• Cost savings analysis</li>
+                        <li>• Leaderboards and rankings</li>
+                        <li>• Export reports (CSV/PDF)</li>
+                        <li>• Challenge creation and tracking</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gamification -->
+        <div class="glass-card p-8 rounded-2xl mb-8">
+            <h3 class="text-2xl font-bold text-white mb-6">🎮 Gamification & Engagement</h3>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-dark-800/50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-pink-400 mb-3">Eco-Impact Tracking</h4>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li>• CO₂ savings calculation per trip</li>
+                        <li>• Personal eco-dashboard</li>
+                        <li>• Trees equivalent metrics</li>
+                        <li>• Environmental impact badges</li>
+                        <li>• Monthly/yearly summaries</li>
+                        <li>• Social sharing features</li>
+                    </ul>
+                </div>
+                <div class="bg-dark-800/50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-pink-400 mb-3">Rewards & Loyalty</h4>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li>• Achievement badges and milestones</li>
+                        <li>• Loyalty tiers (Bronze to Platinum)</li>
+                        <li>• Referral program with rewards</li>
+                        <li>• Discount benefits per tier</li>
+                        <li>• Exclusive features for top users</li>
+                        <li>• Seasonal challenges and events</li>
+                    </ul>
+                </div>
+                <div class="bg-dark-800/50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-pink-400 mb-3">Social Features</h4>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li>• Leaderboards (global and group)</li>
+                        <li>• Share achievements on social media</li>
+                        <li>• Friend referral system</li>
+                        <li>• Community challenges</li>
+                        <li>• Progress tracking and goals</li>
+                        <li>• Recognition and rewards</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment & Transactions -->
+        <div class="glass-card p-8 rounded-2xl">
+            <h3 class="text-2xl font-bold text-white mb-6">💳 Payment & Transactions</h3>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-dark-800/50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-green-400 mb-3">Payment Processing</h4>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li>• Stripe/Razorpay integration</li>
+                        <li>• Multiple payment methods (card, bank, wallet)</li>
+                        <li>• Payment authorization before trip</li>
+                        <li>• Automatic capture after completion</li>
+                        <li>• Secure PCI-compliant processing</li>
+                        <li>• Refund and cancellation handling</li>
+                    </ul>
+                </div>
+                <div class="bg-dark-800/50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-green-400 mb-3">Fare Management</h4>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li>• AI-suggested dynamic pricing</li>
+                        <li>• Transparent cost breakdown</li>
+                        <li>• Automatic fare splitting</li>
+                        <li>• Driver payout system</li>
+                        <li>• Transaction history and receipts</li>
+                        <li>• Tax documentation support</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Team Section -->
+    <div id="team" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-white mb-4">Development Team</h2>
+            <p class="text-gray-400">Meet the developers building SyncRoute</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <a href="m-yashwanth.html" class="glass-card p-8 rounded-2xl card-hover cursor-pointer">
+                <div class="flex items-center mb-6">
+                    <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mr-6">
+                        <span class="text-4xl">👨‍💻</span>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-white">M. Yashwanth</h3>
+                        <p class="text-blue-400 font-semibold">Frontend Development Lead</p>
+                    </div>
+                </div>
+                <p class="text-gray-300 mb-6">
+                    Leading all frontend development including UI/UX design, mobile app development, 
+                    and client-side functionality using React.js, React Native, and modern web technologies.
+                </p>
+                <div class="bg-dark-800/50 p-4 rounded-lg mb-4">
+                    <h4 class="font-semibold text-white mb-2">Responsibilities:</h4>
+                    <ul class="text-sm text-gray-300 space-y-1">
+                        <li>• UI/UX Design & Implementation</li>
+                        <li>• React.js & React Native Development</li>
+                        <li>• Maps Integration (Mapbox/Google Maps)</li>
+                        <li>• Real-time Features (Socket.io Client)</li>
+                        <li>• Mobile Responsiveness & Accessibility</li>
+                    </ul>
+                </div>
+                <div class="flex items-center justify-between pt-4 border-t border-dark-700">
+                    <span class="text-blue-400 font-semibold">12 Phases • 120+ Tasks</span>
+                    <span class="text-gray-400">View TODO List →</span>
+                </div>
+            </a>
+
+            <a href="r-yashwanth.html" class="glass-card p-8 rounded-2xl card-hover cursor-pointer">
+                <div class="flex items-center mb-6">
+                    <div class="w-20 h-20 bg-gradient-to-br from-green-500 to-teal-600 rounded-xl flex items-center justify-center mr-6">
+                        <span class="text-4xl">👨‍💻</span>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-white">R. Yashwanth</h3>
+                        <p class="text-green-400 font-semibold">Backend Development Lead</p>
+                    </div>
+                </div>
+                <p class="text-gray-300 mb-6">
+                    Leading all backend development including server architecture, database design, 
+                    API development, and third-party integrations using Node.js, Express, and cloud services.
+                </p>
+                <div class="bg-dark-800/50 p-4 rounded-lg mb-4">
+                    <h4 class="font-semibold text-white mb-2">Responsibilities:</h4>
+                    <ul class="text-sm text-gray-300 space-y-1">
+                        <li>• Server Architecture & API Development</li>
+                        <li>• Database Design (MongoDB/PostgreSQL)</li>
+                        <li>• Authentication & Authorization (JWT)</li>
+                        <li>• Payment Integration (Stripe/Razorpay)</li>
+                        <li>• Real-time Features (Socket.io Server)</li>
+                    </ul>
+                </div>
+                <div class="flex items-center justify-between pt-4 border-t border-dark-700">
+                    <span class="text-green-400 font-semibold">22 Phases • 150+ Tasks</span>
+                    <span class="text-gray-400">View TODO List →</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Technology Stack -->
+    <div id="tech" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-white mb-4">Technology Stack</h2>
+            <p class="text-gray-400">Modern, scalable, and production-ready technologies</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="glass-card p-8 rounded-2xl">
+                <h3 class="text-xl font-bold text-blue-400 mb-6">Frontend</h3>
+                <ul class="space-y-3 text-gray-300">
+                    <li class="flex items-center"><span class="text-blue-400 mr-2">▸</span> React.js / React Native</li>
+                    <li class="flex items-center"><span class="text-blue-400 mr-2">▸</span> TypeScript</li>
+                    <li class="flex items-center"><span class="text-blue-400 mr-2">▸</span> Tailwind CSS / Material-UI</li>
+                    <li class="flex items-center"><span class="text-blue-400 mr-2">▸</span> Redux / Context API</li>
+                    <li class="flex items-center"><span class="text-blue-400 mr-2">▸</span> Mapbox / Google Maps</li>
+                    <li class="flex items-center"><span class="text-blue-400 mr-2">▸</span> Socket.io Client</li>
+                    <li class="flex items-center"><span class="text-blue-400 mr-2">▸</span> Axios / React Query</li>
+                    <li class="flex items-center"><span class="text-blue-400 mr-2">▸</span> Chart.js / Recharts</li>
+                </ul>
+            </div>
+
+            <div class="glass-card p-8 rounded-2xl">
+                <h3 class="text-xl font-bold text-green-400 mb-6">Backend</h3>
+                <ul class="space-y-3 text-gray-300">
+                    <li class="flex items-center"><span class="text-green-400 mr-2">▸</span> Node.js / Express.js</li>
+                    <li class="flex items-center"><span class="text-green-400 mr-2">▸</span> TypeScript</li>
+                    <li class="flex items-center"><span class="text-green-400 mr-2">▸</span> MongoDB / PostgreSQL</li>
+                    <li class="flex items-center"><span class="text-green-400 mr-2">▸</span> Redis (Caching)</li>
+                    <li class="flex items-center"><span class="text-green-400 mr-2">▸</span> Socket.io Server</li>
+                    <li class="flex items-center"><span class="text-green-400 mr-2">▸</span> JWT Authentication</li>
+                    <li class="flex items-center"><span class="text-green-400 mr-2">▸</span> Docker / Kubernetes</li>
+                    <li class="flex items-center"><span class="text-green-400 mr-2">▸</span> AWS / GCP / Azure</li>
+                </ul>
+            </div>
+
+            <div class="glass-card p-8 rounded-2xl">
+                <h3 class="text-xl font-bold text-purple-400 mb-6">Third-Party Services</h3>
+                <ul class="space-y-3 text-gray-300">
+                    <li class="flex items-center"><span class="text-purple-400 mr-2">▸</span> Stripe / Razorpay</li>
+                    <li class="flex items-center"><span class="text-purple-400 mr-2">▸</span> Twilio (SMS)</li>
+                    <li class="flex items-center"><span class="text-purple-400 mr-2">▸</span> SendGrid (Email)</li>
+                    <li class="flex items-center"><span class="text-purple-400 mr-2">▸</span> AWS S3 / Cloudinary</li>
+                    <li class="flex items-center"><span class="text-purple-400 mr-2">▸</span> Firebase (Push)</li>
+                    <li class="flex items-center"><span class="text-purple-400 mr-2">▸</span> Google Maps API</li>
+                    <li class="flex items-center"><span class="text-purple-400 mr-2">▸</span> Onfido / Jumio (KYC)</li>
+                    <li class="flex items-center"><span class="text-purple-400 mr-2">▸</span> Mixpanel / Amplitude</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark-900 border-t border-dark-700 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="flex items-center justify-center space-x-2 mb-4">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-accent-500 rounded-xl flex items-center justify-center">
+                        <span class="text-white font-bold text-lg">SR</span>
+                    </div>
+                    <span class="text-2xl font-bold gradient-text">SyncRoute</span>
+                </div>
+                <p class="text-gray-400 mb-4">AI-Powered Carpool Platform</p>
+                <p class="text-gray-500 text-sm">&copy; 2024 SyncRoute Project. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

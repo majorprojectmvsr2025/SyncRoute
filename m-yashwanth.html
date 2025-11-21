@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M. Yashwanth - Frontend Development TODO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e'
+                        },
+                        dark: {
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-effect {
+            backdrop-filter: blur(16px);
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+        .glass-card {
+            backdrop-filter: blur(12px);
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #0ea5e9, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section-divider {
+            background: linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.3), transparent);
+            height: 2px;
+        }
+        .todo-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #0ea5e9;
+            border-radius: 4px;
+            display: inline-block;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #0ea5e9, #34d399);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-dark-950 text-gray-100">
+    <!-- Navigation -->
+    <nav class="sticky top-0 glass-effect border-b border-dark-700/30 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <span class="text-white font-bold text-lg">MY</span>
+                    </div>
+                    <div>
+                        <span class="text-xl font-bold text-white">M. Yashwanth</span>
+                        <div class="text-xs text-blue-400 hidden sm:block">Frontend Development Lead</div>
+                    </div>
+                </div>
+                
+                <div class="hidden md:flex space-x-6">
+                    <a href="index.html" class="text-gray-300 hover:text-primary-400 transition-all px-3 py-2">Home</a>
+                    <a href="m-yashwanth.html" class="text-primary-400 font-semibold px-3 py-2">M. Yashwanth</a>
+                    <a href="r-yashwanth.html" class="text-gray-300 hover:text-primary-400 transition-all px-3 py-2">R. Yashwanth</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="glass-card p-8 rounded-2xl mb-8">
+            <div class="flex items-center mb-4">
+                <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mr-6">
+                    <span class="text-5xl">👨‍💻</span>
+                </div>
+                <div>
+                    <h1 class="text-4xl font-bold text-white mb-2">M. Yashwanth</h1>
+                    <p class="text-xl text-blue-400 font-semibold">Frontend Development Lead</p>
+                </div>
+            </div>
+            <p class="text-gray-300 text-lg">
+                Responsible for UI/UX design, user interfaces, mobile app development, and all client-side functionality for the SyncRoute platform.
+            </p>
+        </div>
+
+        <!-- Technologies -->
+        <div class="glass-card p-8 rounded-2xl mb-8">
+            <h2 class="text-2xl font-bold text-white mb-6">🛠️ Technologies & Tools</h2>
+            <div class="section-divider w-32 mb-6"></div>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-dark-800/50 p-6 rounded-lg">
+                    <h3 class="font-semibold text-blue-400 mb-3">Core Technologies</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>• React.js / React Native (Mobile)</li>
+                        <li>• TypeScript</li>
+                        <li>• Tailwind CSS / Material-UI</li>
+                        <li>• Redux / Context API (State Management)</li>
+                        <li>• React Router (Navigation)</li>
+                    </ul>
+                </div>
+                <div class="bg-dark-800/50 p-6 rounded-lg">
+                    <h3 class="font-semibold text-blue-400 mb-3">Libraries & Tools</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>• Mapbox GL JS / Google Maps API</li>
+                        <li>• Socket.io Client (Real-time)</li>
+                        <li>• Axios (HTTP Requests)</li>
+                        <li>• React Hook Form (Forms)</li>
+                        <li>• Chart.js / Recharts (Analytics)</li>
+                        <li>• Framer Motion (Animations)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- TODO List -->
+        <div class="glass-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-white mb-6">📋 Frontend Development TODO List</h2>
+            <div class="section-divider w-32 mb-6"></div>
+            
+            <div class="space-y-8">
+
+                <!-- Phase 1 -->
+                <div class="bg-blue-900/20 border border-blue-500/30 p-6 rounded-xl">
+                    <h3 class="text-xl font-semibold text-blue-300 mb-4">Phase 1: Core UI Components (Priority: HIGH)</h3>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Design and implement responsive navigation bar with mobile menu</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Create reusable button components (primary, secondary, danger)</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Build form input components (text, email, password, phone)</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Implement modal/dialog components for confirmations</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Create loading spinners and skeleton screens</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Design toast notification system</span></li>
+                    </ul>
+                </div>
+
+                <!-- Phase 2 -->
+                <div class="bg-blue-900/20 border border-blue-500/30 p-6 rounded-xl">
+                    <h3 class="text-xl font-semibold text-blue-300 mb-4">Phase 2: Authentication & Onboarding UI</h3>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Build landing page with hero section and features</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Create sign-up form with role selection (Rider/Driver/Both)</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Implement login page with password strength indicator</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Design OTP verification screen (SMS/Email)</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Build profile setup wizard (multi-step form)</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Create photo upload component with preview</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Design KYC document upload interface</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Implement selfie capture component</span></li>
+                    </ul>
+                </div>
+
+                <!-- Phase 3 -->
+                <div class="bg-blue-900/20 border border-blue-500/30 p-6 rounded-xl">
+                    <h3 class="text-xl font-semibold text-blue-300 mb-4">Phase 3: Rider Interface</h3>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Design rider dashboard with search interface</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Implement location autocomplete (pickup/destination)</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Create date/time picker components</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Build search results page with map and list views</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Design ride card component with driver details</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Implement filter sidebar (price, time, preferences)</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Create ride details modal with full information</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Build booking confirmation flow</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Design live tracking screen with map</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Implement ETA countdown and progress indicators</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Create rating and review interface</span></li>
+                    </ul>
+                </div>
+
+                <!-- Phase 4 -->
+                <div class="bg-blue-900/20 border border-blue-500/30 p-6 rounded-xl">
+                    <h3 class="text-xl font-semibold text-blue-300 mb-4">Phase 4: Driver Interface</h3>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Design driver dashboard with trip management</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Build "Post a Trip" wizard (multi-step form)</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Implement route selection with waypoints</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Create vehicle selection and amenities interface</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Design rider request cards with accept/decline</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Build trip management screen (confirmed bookings)</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Implement navigation interface with turn-by-turn</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Create pickup/dropoff confirmation buttons</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Design earnings dashboard with statistics</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Build trip summary screen</span></li>
+                    </ul>
+                </div>
+
+                <!-- Phase 5 -->
+                <div class="bg-blue-900/20 border border-blue-500/30 p-6 rounded-xl">
+                    <h3 class="text-xl font-semibold text-blue-300 mb-4">Phase 5: Messaging & Communication</h3>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Design chat interface with message bubbles</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Implement real-time message updates</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Create quick message templates</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Build inbox/conversation list</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Add read receipts and typing indicators</span></li>
+                    </ul>
+                </div>
+
+                <!-- Phase 6 -->
+                <div class="bg-blue-900/20 border border-blue-500/30 p-6 rounded-xl">
+                    <h3 class="text-xl font-semibold text-blue-300 mb-4">Phase 6: Maps Integration</h3>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Integrate Mapbox/Google Maps SDK</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Implement interactive map with markers</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Create route visualization with polylines</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Add real-time location tracking on map</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Implement map clustering for multiple rides</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Create custom map markers (pickup, dropoff, driver)</span></li>
+                    </ul>
+                </div>
+
+                <!-- Phase 7 -->
+                <div class="bg-blue-900/20 border border-blue-500/30 p-6 rounded-xl">
+                    <h3 class="text-xl font-semibold text-blue-300 mb-4">Phase 7: Group/Organization Features</h3>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Design group creation form</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Build group dashboard with tabs (Rides, Members, Analytics)</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Create member invitation interface</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Implement group analytics with charts</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Design leaderboard component</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Build circle creation interface</span></li>
+                    </ul>
+                </div>
+
+                <!-- Phase 8 -->
+                <div class="bg-blue-900/20 border border-blue-500/30 p-6 rounded-xl">
+                    <h3 class="text-xl font-semibold text-blue-300 mb-4">Phase 8: Profile & Settings</h3>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Design user profile page with edit functionality</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Build settings page with sections</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Create payment method management interface</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Implement notification preferences</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Design privacy settings page</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Build trip history with filters</span></li>
+                    </ul>
+                </div>
+
+                <!-- Phase 9 -->
+                <div class="bg-blue-900/20 border border-blue-500/30 p-6 rounded-xl">
+                    <h3 class="text-xl font-semibold text-blue-300 mb-4">Phase 9: Gamification & Eco-Impact</h3>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Design eco-impact dashboard with CO₂ savings</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Create badge collection display</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Implement progress bars for achievements</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Build referral program interface</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Design loyalty tier display</span></li>
+                    </ul>
+                </div>
+
+                <!-- Phase 10 -->
+                <div class="bg-blue-900/20 border border-blue-500/30 p-6 rounded-xl">
+                    <h3 class="text-xl font-semibold text-blue-300 mb-4">Phase 10: Safety & Emergency</h3>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Design SOS button (prominent, accessible)</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Create emergency contact management</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Build trip sharing interface</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Implement safety tips and guidelines display</span></li>
+                    </ul>
+                </div>
+
+                <!-- Phase 11 -->
+                <div class="bg-blue-900/20 border border-blue-500/30 p-6 rounded-xl">
+                    <h3 class="text-xl font-semibold text-blue-300 mb-4">Phase 11: Mobile Responsiveness</h3>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Ensure all pages are mobile-responsive</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Optimize touch interactions for mobile</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Implement bottom navigation for mobile</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Create mobile-specific gestures (swipe, pull-to-refresh)</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Test on various screen sizes</span></li>
+                    </ul>
+                </div>
+
+                <!-- Phase 12 -->
+                <div class="bg-blue-900/20 border border-blue-500/30 p-6 rounded-xl">
+                    <h3 class="text-xl font-semibold text-blue-300 mb-4">Phase 12: Accessibility & Localization</h3>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Implement ARIA labels for screen readers</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Ensure keyboard navigation support</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Add high contrast mode</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Implement multi-language support (i18n)</span></li>
+                        <li class="flex items-start"><span class="todo-checkbox"></span><span>Create language selector component</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="glass-card p-8 rounded-2xl mt-8">
+            <h2 class="text-2xl font-bold text-white mb-4">📊 Summary</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-blue-900/20 p-6 rounded-lg text-center">
+                    <div class="text-4xl font-bold text-blue-400 mb-2">12</div>
+                    <div class="text-gray-300">Development Phases</div>
+                </div>
+                <div class="bg-blue-900/20 p-6 rounded-lg text-center">
+                    <div class="text-4xl font-bold text-blue-400 mb-2">120+</div>
+                    <div class="text-gray-300">Total Tasks</div>
+                </div>
+                <div class="bg-blue-900/20 p-6 rounded-lg text-center">
+                    <div class="text-4xl font-bold text-blue-400 mb-2">6-8</div>
+                    <div class="text-gray-300">Months (Estimated)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark-900 text-white py-8 border-t border-dark-700 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-gray-400">&copy; 2024 SyncRoute Project - M. Yashwanth (Frontend Development)</p>
+            <p class="text-gray-500 text-sm mt-2"><a href="index.html" class="text-blue-400 hover:text-blue-300">← Back to Home</a></p>
+        </div>
+    </footer>
+</body>
+</html>
