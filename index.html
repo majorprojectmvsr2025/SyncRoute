@@ -42,10 +42,28 @@
                     </div>
                     <span class="text-xl font-bold gradient-text">SyncRoute</span>
                 </div>
-                <div class="flex space-x-6">
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-6">
                     <a href="#features" class="text-gray-300 hover:text-primary-400 transition-all">Features</a>
                     <a href="#team" class="text-gray-300 hover:text-primary-400 transition-all">Team</a>
                     <a href="#tech" class="text-gray-300 hover:text-primary-400 transition-all">Technology</a>
+                </div>
+                
+                <!-- Mobile Hamburger Button -->
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-dark-800/50 transition-all">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden pb-4 border-t border-dark-700/30 mt-4">
+                <div class="flex flex-col space-y-2 pt-4">
+                    <a href="#features" class="text-gray-300 hover:text-primary-400 transition-all py-3 px-4 rounded-lg hover:bg-dark-800/50">Features</a>
+                    <a href="#team" class="text-gray-300 hover:text-primary-400 transition-all py-3 px-4 rounded-lg hover:bg-dark-800/50">Team</a>
+                    <a href="#tech" class="text-gray-300 hover:text-primary-400 transition-all py-3 px-4 rounded-lg hover:bg-dark-800/50">Technology</a>
                 </div>
             </div>
         </div>
@@ -526,11 +544,25 @@
     </footer>
 
     <script>
+        // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    // Close mobile menu after clicking
+                    document.getElementById('mobile-menu').classList.add('hidden');
+                }
             });
+        });
+        
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
         });
     </script>
 </body>
