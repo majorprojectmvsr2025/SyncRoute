@@ -1,0 +1,259 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 220 20% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 10%;
+
+    --primary: 221 83% 53%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 220 20% 10%;
+
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+
+    --accent: 220 14% 93%;
+    --accent-foreground: 220 20% 10%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 221 83% 53%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 220 9% 26%;
+    --sidebar-primary: 221 83% 53%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 14% 95%;
+    --sidebar-accent-foreground: 220 9% 26%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 221 83% 53%;
+
+    --system-green: 152 60% 38%;
+    --system-green-foreground: 0 0% 100%;
+    --system-amber: 38 92% 50%;
+    --system-amber-foreground: 0 0% 100%;
+    --system-red: 0 72% 51%;
+
+    --surface-elevated: 0 0% 99%;
+    --surface-sunken: 220 14% 96%;
+    --control-bg: 0 0% 100%;
+    --control-border: 220 13% 86%;
+    --control-hover: 220 14% 96%;
+  }
+
+  .dark {
+    --background: 224 32% 6%;
+    --foreground: 210 40% 96%;
+
+    --card: 224 32% 8%;
+    --card-foreground: 210 40% 96%;
+
+    --popover: 224 32% 8%;
+    --popover-foreground: 210 40% 96%;
+
+    --primary: 217 91% 60%;
+    --primary-foreground: 224 32% 6%;
+
+    --secondary: 224 26% 12%;
+    --secondary-foreground: 210 40% 96%;
+
+    --muted: 224 26% 12%;
+    --muted-foreground: 218 11% 55%;
+
+    --accent: 224 26% 15%;
+    --accent-foreground: 210 40% 96%;
+
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 224 20% 16%;
+    --input: 224 20% 16%;
+    --ring: 217 91% 60%;
+
+    --sidebar-background: 224 32% 5%;
+    --sidebar-foreground: 210 30% 85%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 224 32% 6%;
+    --sidebar-accent: 224 26% 12%;
+    --sidebar-accent-foreground: 210 30% 85%;
+    --sidebar-border: 224 20% 16%;
+    --sidebar-ring: 217 91% 60%;
+
+    --system-green: 152 55% 45%;
+    --system-green-foreground: 224 32% 6%;
+    --system-amber: 38 92% 55%;
+    --system-amber-foreground: 224 32% 6%;
+    --system-red: 0 72% 55%;
+
+    --surface-elevated: 224 32% 9%;
+    --surface-sunken: 224 32% 4%;
+    --control-bg: 224 32% 9%;
+    --control-border: 224 20% 20%;
+    --control-hover: 224 26% 15%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+
+  ::selection {
+    background-color: hsl(var(--primary) / 0.15);
+    color: hsl(var(--primary));
+  }
+
+  input::placeholder, textarea::placeholder {
+    @apply text-muted-foreground/60;
+  }
+}
+
+@layer utilities {
+  .font-mono-system {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  .transition-system {
+    @apply transition-all duration-200 ease-out;
+  }
+
+  .border-system {
+    @apply border border-border;
+  }
+
+  .surface-elevated {
+    background-color: hsl(var(--surface-elevated));
+  }
+
+  .surface-sunken {
+    background-color: hsl(var(--surface-sunken));
+  }
+
+  .control-surface {
+    background-color: hsl(var(--control-bg));
+    border: 1px solid hsl(var(--control-border));
+  }
+
+  .control-hover:hover {
+    background-color: hsl(var(--control-hover));
+  }
+
+  .system-metric {
+    @apply font-mono-system text-sm tabular-nums;
+  }
+
+  /* Card hover */
+  .card-hover {
+    @apply transition-colors duration-150;
+  }
+  .card-hover:hover {
+    border-color: hsl(var(--primary) / 0.3);
+  }
+}
+
+/* === SCROLLBAR === */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.3);
+}
+
+/* === LEAFLET MAP OVERRIDES === */
+
+.leaflet-container {
+  font-family: 'Inter', sans-serif;
+}
+
+.leaflet-popup-content-wrapper {
+  background: hsl(var(--card));
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+
+.leaflet-popup-tip {
+  background: hsl(var(--card));
+}
+
+.leaflet-control-zoom {
+  border: 1px solid hsl(var(--border)) !important;
+  border-radius: var(--radius) !important;
+  overflow: hidden;
+}
+
+.leaflet-control-zoom a {
+  background: hsl(var(--card)) !important;
+  color: hsl(var(--foreground)) !important;
+  border-bottom: 1px solid hsl(var(--border)) !important;
+  width: 32px !important;
+  height: 32px !important;
+  line-height: 32px !important;
+  font-size: 14px !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: hsl(var(--accent)) !important;
+}
+
+.leaflet-control-attribution {
+  background: hsl(var(--card) / 0.9) !important;
+  color: hsl(var(--muted-foreground)) !important;
+  font-size: 9px !important;
+  backdrop-filter: blur(8px);
+}
+
+/* === FOCUS STYLES === */
+*:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2);
+  border-color: hsl(var(--ring));
+}
