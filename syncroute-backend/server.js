@@ -64,9 +64,35 @@ app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
 // MongoDB
-mongoose.connect(process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/syncroute")
-  .then(() => console.log("✅ MongoDB Connected"))
-  .catch(err => console.error("❌ MongoDB Error:", err));
+const mongoOptions = {
+  serverSelectionTimeoutMS: 5000,
+  socketTimeoutMS: 45000,
+};
+
+mongoose.connect(process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/syncroute", mongoOptions)
+  .then(() => {
+    console.log("✅ MongoDB Connected");
+    console.log("   Database:", mongoose.connection.name);
+    console.log("   Host:", mongoose.connection.host);
+  })
+  .catch(err => {
+    console.error("❌ MongoDB Connection Error:", err.message);
+    console.error("   Full error:", err);
+    console.error("   Connection string (masked):", process.env.MONGODB_URI ? "mongodb+srv://***:***@..." : "local");
+  });
+
+// Monitor MongoDB connection status
+mongoose.connection.on('connected', () => {
+  console.log('✅ Mongoose connected to MongoDB');
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error('❌ Mongoose connection error:', err);
+});
+
+mongoose.connection.on('disconnected', () => {
+  console.log('⚠️  Mongoose disconnected from MongoDB');
+});
 
 // Socket.io
 const { Server } = require("socket.io");
@@ -111,10 +137,24 @@ app.get("/api/health", (req, res) => {
   const { getFCMInfo } = require("./utils/firebasePush");
   const { getOCRInfo } = require("./utils/cloudOCR");
   
+  const mongoStatus = mongoose.connection.readyState;
+  const mongoStates = {
+    0: 'disconnected',
+    1: 'connected',
+    2: 'connecting',
+    3: 'disconnecting'
+  };
+  
   res.json({ 
     status: "ok", 
     message: "SyncRoute API is running", 
     timestamp: new Date().toISOString(),
+    database: {
+      status: mongoStates[mongoStatus] || 'unknown',
+      readyState: mongoStatus,
+      name: mongoose.connection.name || 'not connected',
+      host: mongoose.connection.host || 'not connected'
+    },
     cloud: {
       storage: getStorageInfo(),
       pushNotifications: getFCMInfo(),
