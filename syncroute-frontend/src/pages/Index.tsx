@@ -128,6 +128,10 @@ const Index = () => {
   const handleIntroComplete = () => {
     sessionStorage.setItem("syncroute_intro_seen", "1");
     setShowIntro(false);
+    // Force a gentle reload to ensure clean state
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
   };
 
   useEffect(() => {
