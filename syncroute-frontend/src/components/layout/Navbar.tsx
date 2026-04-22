@@ -65,12 +65,12 @@ export function Navbar() {
           <div className="flex items-center gap-1.5 shrink-0">
             {user ? (
               <>
-                {/* Desktop only */}
+                {/* Desktop only - Offer ride button completely hidden on mobile */}
                 <ThemeToggle className="hidden md:flex" />
                 <NotificationBell className="hidden md:flex" />
                 <Link
                   to="/offer-ride"
-                  className="btn btn-primary btn-sm hidden md:inline-flex"
+                  className="btn btn-primary btn-sm hidden md:inline-flex max-md:!hidden"
                 >
                   <Plus className="h-3.5 w-3.5" />
                   Offer ride
