@@ -5,7 +5,7 @@ import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon   from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import { useEffect, useRef, useState } from "react";
-import { Maximize2, Minimize2, MapPin } from "lucide-react";
+import { MapPin } from "lucide-react";
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({ iconRetinaUrl: markerIcon2x, iconUrl: markerIcon, shadowUrl: markerShadow });
@@ -59,7 +59,6 @@ export function RideMap({
   height = "280px", userLocation, userPickup, userDrop, userRoute,
 }: RideMapProps) {
   const isDark = useIsDark();
-  const [fullscreen, setFullscreen] = useState(false);
 
   if (!routeCoords || routeCoords.length < 2) {
     return (
@@ -107,7 +106,7 @@ export function RideMap({
     <MapContainer
       center={startPoint}
       zoom={8}
-      style={{ height: fullscreen ? "calc(100vh - 48px)" : height, width: "100%" }}
+      style={{ height, width: "100%" }}
       scrollWheelZoom
       zoomControl
     >
@@ -166,39 +165,8 @@ export function RideMap({
     </MapContainer>
   );
 
-  /* ── Fullscreen wrapper ── */
-  if (fullscreen) {
-    return (
-      <div className="fixed inset-0 z-[9999] flex flex-col bg-background">
-        {/* Header bar */}
-        <div className="flex items-center justify-between px-4 h-12 border-b border-border bg-background shrink-0 z-[10000]">
-          <div className="flex items-center gap-2 text-sm font-medium">
-            <MapPin className="h-4 w-4 text-primary" />
-            {fromName || "Origin"} → {toName || "Destination"}
-          </div>
-          <button
-            onClick={() => setFullscreen(false)}
-            className="flex items-center gap-1.5 h-8 px-3 border border-border rounded-sm text-xs font-medium hover:bg-accent transition-colors"
-          >
-            <Minimize2 className="h-3.5 w-3.5" /> Exit Fullscreen
-          </button>
-        </div>
-        {mapEl}
-      </div>
-    );
-  }
-
   return (
     <div className="relative rounded-lg overflow-hidden border border-border" style={{ height }}>
-      {/* Fullscreen button — sits outside & above the Leaflet canvas */}
-      <div className="absolute top-2 right-2 z-[1000] pointer-events-auto">
-        <button
-          onClick={() => setFullscreen(true)}
-          className="flex items-center gap-1.5 h-7 px-2.5 bg-background/95 backdrop-blur-sm border border-border text-xs font-medium rounded-sm shadow hover:bg-accent transition-colors"
-        >
-          <Maximize2 className="h-3 w-3" /> Fullscreen
-        </button>
-      </div>
       {mapEl}
     </div>
   );

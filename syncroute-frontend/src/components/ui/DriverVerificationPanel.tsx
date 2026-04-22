@@ -83,7 +83,8 @@ export function DriverVerificationPanel({
 
   const dv = user?.driverVerification;
   const docs = user?.documents;
-  const isVerified = dv?.isVerified === true;
+  // Check both driverVerification.isVerified AND documents verification status
+  const isVerified = dv?.isVerified === true && docs?.licenseVerified === true && docs?.rcVerified === true;
 
   // Calculate days since verification
   const daysSinceVerification = dv?.verifiedAt

@@ -48,6 +48,7 @@ STRICT RULES:
 2. If asked about ANYTHING else (weather, news, politics, general knowledge, etc.), respond: "I can only help with SyncRoute ride-sharing questions. Ask me about finding rides, booking, safety features, or how the platform works."
 3. Be concise - keep responses under 3 sentences unless explaining features
 4. No emojis except in greetings
+5. IMPORTANT: Analyze each question carefully and provide SPECIFIC answers based on the question type
 
 Your capabilities:
 - Help users search for rides between locations
@@ -56,26 +57,40 @@ Your capabilities:
 - Help with common issues
 
 Key information about SyncRoute:
-- Users can search rides by pickup/drop location and date
-- Drivers are verified with government ID and vehicle documents using OCR
-- Route matching ensures 60%+ overlap between driver and passenger routes
-- Instant booking available - no waiting for driver approval
-- All prices are per seat, no booking fees
+
+HOW IT WORKS:
+- Route-matched carpooling: We match riders with drivers who share 60%+ of the actual road route
+- Not just nearby - we use OSRM road routing for accurate matching
+- Three simple steps: Enter route → Pick driver → Book and go
+- Instant booking - no waiting for driver approval
+- In-app chat with drivers for coordination
+
+SAFETY FEATURES (VERY IMPORTANT):
+- Government ID verification: All drivers upload driving license and vehicle registration
+- OCR-based document verification: Automated text extraction and validation
+- 8-layer verification system: OCR, format validation, state/RTO code check, age verification (18+), name matching, data consistency, tampering detection, input field verification
+- Real-time GPS tracking during rides
+- SOS emergency button: One-tap emergency alert to contacts and authorities
+- Share ride details with emergency contacts
+- Driver and passenger ratings system
+- Route deviation alerts
+- Background checks for all drivers
+- 24/7 support team
+
+BOOKING & PRICING:
+- Pay only for the distance you actually travel (proportional pricing)
+- No booking fees ever
+- Prices shown are per seat
+- Instant seat confirmation
+- Cancel anytime before ride starts
+
+FEATURES:
 - In-app chat with drivers
 - Real-time ride tracking
-- SOS emergency button
-- Driver and passenger ratings
-
-Safety Features:
-- Government ID verification (driving license, vehicle registration)
-- OCR-based document verification
-- Driver background checks
-- Real-time GPS tracking
-- In-app emergency SOS button
-- Share ride details with emergency contacts
-- Driver and passenger ratings
-- Route deviation alerts
-- 24/7 support
+- Route-first matching (60%+ overlap required)
+- Verified drivers only
+- Lower emissions by sharing rides
+- Accurate pickup & drop on map
 
 When user wants to search for a ride, extract:
 - Origin/pickup location
@@ -91,6 +106,15 @@ If you can extract ride search info, respond ONLY with valid JSON:
   "date": "YYYY-MM-DD or null",
   "passengers": 1
 }
+
+QUESTION TYPES TO HANDLE:
+1. "How does SyncRoute work?" → Explain the 3-step process and route-matching
+2. "What safety features?" → List ID verification, GPS tracking, SOS button, ratings
+3. "How to book?" → Explain search → select → instant booking process
+4. "Pricing/cost?" → Explain proportional pricing, no booking fees
+5. "Cancel ride?" → Explain cancellation policy
+6. "Driver verification?" → Explain 8-layer OCR verification system
+7. "Emergency/SOS?" → Explain SOS button and emergency contact features
 
 Otherwise, respond conversationally. Be concise, helpful, and professional.
 
@@ -285,6 +309,63 @@ async function searchRidesWithParams(params) {
 function processMessageFallback(message, context) {
   const lowerMessage = message.toLowerCase();
 
+  // Handle common questions first
+  if (lowerMessage.includes('how') && (lowerMessage.includes('work') || lowerMessage.includes('syncroute'))) {
+    return {
+      type: "message",
+      message: "SyncRoute works in 3 simple steps:\n\n1. Enter your route (pickup and drop location)\n2. Pick a verified driver with 60%+ route overlap\n3. Book instantly and chat with your driver\n\nWe match you with drivers sharing your actual road route, not just nearby locations.",
+      quickReplies: ["Safety features", "Search rides", "Pricing"]
+    };
+  }
+
+  if (lowerMessage.includes('safety') || lowerMessage.includes('secure') || lowerMessage.includes('safe')) {
+    return {
+      type: "message",
+      message: "SyncRoute safety features:\n\n✓ Government ID verification (DL + RC)\n✓ 8-layer OCR document verification\n✓ Real-time GPS tracking\n✓ SOS emergency button\n✓ Share ride details with emergency contacts\n✓ Driver & passenger ratings\n✓ 24/7 support",
+      quickReplies: ["How it works", "Search rides"]
+    };
+  }
+
+  if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('pay') || lowerMessage.includes('fee')) {
+    return {
+      type: "message",
+      message: "SyncRoute pricing:\n\n• Pay only for the distance YOU travel (proportional pricing)\n• No booking fees - ever\n• Prices shown are per seat\n• Instant confirmation - no waiting",
+      quickReplies: ["Search rides", "How it works"]
+    };
+  }
+
+  if (lowerMessage.includes('book') && !lowerMessage.includes('to')) {
+    return {
+      type: "message",
+      message: "Booking is simple:\n\n1. Search for rides by entering your route\n2. Select a driver that matches your route\n3. Choose number of seats\n4. Instant confirmation - no approval wait\n5. Chat with driver to coordinate pickup",
+      quickReplies: ["Search rides", "Safety features"]
+    };
+  }
+
+  if (lowerMessage.includes('cancel')) {
+    return {
+      type: "message",
+      message: "You can cancel your booking anytime before the ride starts. Just go to your bookings and tap cancel. No cancellation fees for early cancellations.",
+      quickReplies: ["My bookings", "Search rides"]
+    };
+  }
+
+  if (lowerMessage.includes('driver') && lowerMessage.includes('verif')) {
+    return {
+      type: "message",
+      message: "All drivers go through 8-layer verification:\n\n✓ OCR text extraction from documents\n✓ DL/RC format validation\n✓ State & RTO code verification\n✓ Age verification (18+)\n✓ Name matching\n✓ Data consistency checks\n✓ Tampering detection\n✓ Input field verification",
+      quickReplies: ["Safety features", "Search rides"]
+    };
+  }
+
+  if (lowerMessage.includes('sos') || lowerMessage.includes('emergency')) {
+    return {
+      type: "message",
+      message: "SyncRoute emergency features:\n\n• One-tap SOS button during rides\n• Instant alert to your emergency contacts\n• Real-time location sharing\n• 24/7 support team\n• Route deviation alerts",
+      quickReplies: ["Safety features", "How it works"]
+    };
+  }
+
   // Extract locations
   let fromLocation = null;
   let toLocation = null;
@@ -322,15 +403,15 @@ function processMessageFallback(message, context) {
   if (/^(hi|hello|hey|hii+)\b/i.test(message.trim())) {
     return {
       type: "message",
-      message: "Hello! I can help you find rides.\n\nTell me where you want to go, for example:\n\"Hyderabad to Gachibowli tomorrow\"",
-      quickReplies: ["Search rides", "My bookings", "Help"]
+      message: "Hello! I'm SyncBot, your SyncRoute assistant. I can help you:\n\n• Find rides\n• Learn about safety features\n• Understand how booking works\n• Answer questions about pricing\n\nWhat would you like to know?",
+      quickReplies: ["Search rides", "Safety features", "How it works"]
     };
   }
 
   return {
     type: "message",
-    message: "I can help you find rides. Tell me your pickup and drop locations.\n\nExample: \"Hyderabad to Gachibowli tomorrow\"",
-    quickReplies: ["Search rides", "My bookings"]
+    message: "I can help you with:\n\n• Finding rides (e.g., 'Hyderabad to Gachibowli tomorrow')\n• Safety features\n• How SyncRoute works\n• Booking and pricing\n\nWhat would you like to know?",
+    quickReplies: ["Search rides", "Safety features", "How it works"]
   };
 }
 

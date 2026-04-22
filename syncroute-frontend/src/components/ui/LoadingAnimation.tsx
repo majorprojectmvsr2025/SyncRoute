@@ -49,18 +49,20 @@ export function LoadingAnimation({
         <span className="longfazer-4" />
       </div>
 
-      {/* Loader Component */}
-      <div className="relative w-full max-w-2xl h-[400px] flex items-center justify-center">
-        <div className="loader">
-          <span className="loader-lines">
+      {/* Loader Component - Car Animation */}
+      <div className="relative w-full max-w-2xl h-[200px] sm:h-[300px] md:h-[400px] flex items-center justify-center px-4">
+        <div className="car-loader">
+          <span className="car-lines">
             <span />
             <span />
             <span />
             <span />
           </span>
-          <div className="base">
-            <span />
-            <div className="face" />
+          <div className="car-body">
+            <div className="car-top" />
+            <div className="car-bottom" />
+            <div className="car-wheel car-wheel-front" />
+            <div className="car-wheel car-wheel-back" />
           </div>
         </div>
       </div>
@@ -87,141 +89,194 @@ export function LoadingAnimation({
       </div>
 
       <style>{`
-        .loader {
-          position: absolute;
-          top: 50%;
-          margin-left: -50px;
-          left: 50%;
-          animation: speeder 0.4s linear infinite;
+        /* Car Loader - Responsive */
+        .car-loader {
+          position: relative;
+          width: 100%;
+          max-width: 200px;
+          height: 80px;
+          animation: car-bounce 0.5s ease-in-out infinite;
           z-index: 10;
         }
 
-        .loader > span {
-          height: 5px;
-          width: 35px;
-          background: hsl(var(--foreground));
-          position: absolute;
-          top: -19px;
-          left: 60px;
-          border-radius: 2px 10px 1px 0;
+        @media (min-width: 640px) {
+          .car-loader {
+            max-width: 250px;
+            height: 100px;
+          }
         }
 
-        .base span {
-          position: absolute;
-          width: 0;
-          height: 0;
-          border-top: 6px solid transparent;
-          border-right: 100px solid hsl(var(--foreground));
-          border-bottom: 6px solid transparent;
+        @media (min-width: 768px) {
+          .car-loader {
+            max-width: 300px;
+            height: 120px;
+          }
         }
 
-        .base span:before {
+        .car-body {
+          position: relative;
+          width: 100%;
+          height: 100%;
+        }
+
+        .car-top {
+          position: absolute;
+          width: 50%;
+          height: 40%;
+          background: hsl(var(--primary));
+          border-radius: 20px 20px 5px 5px;
+          top: 10%;
+          left: 25%;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .car-top:before {
           content: "";
-          height: 22px;
-          width: 22px;
+          position: absolute;
+          width: 35%;
+          height: 60%;
+          background: hsl(var(--primary-foreground) / 0.3);
+          border-radius: 8px;
+          top: 20%;
+          left: 15%;
+        }
+
+        .car-top:after {
+          content: "";
+          position: absolute;
+          width: 35%;
+          height: 60%;
+          background: hsl(var(--primary-foreground) / 0.3);
+          border-radius: 8px;
+          top: 20%;
+          right: 15%;
+        }
+
+        .car-bottom {
+          position: absolute;
+          width: 90%;
+          height: 35%;
+          background: hsl(var(--primary));
+          border-radius: 15px;
+          bottom: 20%;
+          left: 5%;
+          box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+        }
+
+        .car-bottom:before {
+          content: "";
+          position: absolute;
+          width: 20%;
+          height: 50%;
+          background: hsl(var(--warning));
+          border-radius: 4px;
+          top: 25%;
+          left: 5%;
+        }
+
+        .car-bottom:after {
+          content: "";
+          position: absolute;
+          width: 20%;
+          height: 50%;
+          background: hsl(var(--destructive));
+          border-radius: 4px;
+          top: 25%;
+          right: 5%;
+        }
+
+        .car-wheel {
+          position: absolute;
+          width: 18%;
+          height: 18%;
+          background: hsl(var(--foreground));
           border-radius: 50%;
-          background: hsl(var(--foreground));
-          position: absolute;
-          right: -110px;
-          top: -16px;
+          bottom: 5%;
+          border: 3px solid hsl(var(--muted-foreground));
+          animation: wheel-spin 0.6s linear infinite;
         }
 
-        .base span:after {
+        .car-wheel-front {
+          right: 10%;
+        }
+
+        .car-wheel-back {
+          left: 10%;
+        }
+
+        .car-wheel:before {
           content: "";
           position: absolute;
-          width: 0;
-          height: 0;
-          border-top: 0 solid transparent;
-          border-right: 55px solid hsl(var(--foreground));
-          border-bottom: 16px solid transparent;
-          top: -16px;
-          right: -98px;
+          width: 40%;
+          height: 40%;
+          background: hsl(var(--muted));
+          border-radius: 50%;
+          top: 30%;
+          left: 30%;
         }
 
-        .face {
-          position: absolute;
-          height: 12px;
+        .car-lines > span:nth-child(1),
+        .car-lines > span:nth-child(2),
+        .car-lines > span:nth-child(3),
+        .car-lines > span:nth-child(4) {
           width: 20px;
-          background: hsl(var(--foreground));
-          border-radius: 20px 20px 0 0;
-          transform: rotate(-40deg);
-          right: -125px;
-          top: -15px;
-        }
-
-        .face:after {
-          content: "";
-          height: 12px;
-          width: 12px;
-          background: hsl(var(--foreground));
-          right: 4px;
-          top: 7px;
+          height: 2px;
+          background: hsl(var(--foreground) / 0.3);
           position: absolute;
-          transform: rotate(40deg);
-          transform-origin: 50% 50%;
-          border-radius: 0 0 0 2px;
+          animation: speed-line1 0.3s linear infinite;
         }
 
-        .loader-lines > span:nth-child(1),
-        .loader-lines > span:nth-child(2),
-        .loader-lines > span:nth-child(3),
-        .loader-lines > span:nth-child(4) {
-          width: 30px;
-          height: 1px;
-          background: hsl(var(--foreground));
-          position: absolute;
-          animation: fazer1 0.2s linear infinite;
+        @media (min-width: 640px) {
+          .car-lines > span {
+            width: 30px;
+          }
         }
 
-        .loader-lines > span:nth-child(2) {
-          top: 3px;
-          animation: fazer2 0.4s linear infinite;
+        .car-lines > span:nth-child(2) {
+          top: 20%;
+          animation: speed-line2 0.4s linear infinite;
         }
 
-        .loader-lines > span:nth-child(3) {
-          top: 1px;
-          animation: fazer3 0.4s linear infinite;
-          animation-delay: -1s;
+        .car-lines > span:nth-child(3) {
+          top: 40%;
+          animation: speed-line3 0.35s linear infinite;
+          animation-delay: -0.5s;
         }
 
-        .loader-lines > span:nth-child(4) {
-          top: 4px;
-          animation: fazer4 1s linear infinite;
-          animation-delay: -1s;
+        .car-lines > span:nth-child(4) {
+          top: 60%;
+          animation: speed-line4 0.5s linear infinite;
+          animation-delay: -0.8s;
         }
 
-        @keyframes fazer1 {
-          0% { left: 0; }
+        @keyframes speed-line1 {
+          0% { left: 0; opacity: 0.8; }
+          100% { left: -60px; opacity: 0; }
+        }
+
+        @keyframes speed-line2 {
+          0% { left: 0; opacity: 0.8; }
           100% { left: -80px; opacity: 0; }
         }
 
-        @keyframes fazer2 {
-          0% { left: 0; }
-          100% { left: -100px; opacity: 0; }
-        }
-
-        @keyframes fazer3 {
-          0% { left: 0; }
+        @keyframes speed-line3 {
+          0% { left: 0; opacity: 0.8; }
           100% { left: -50px; opacity: 0; }
         }
 
-        @keyframes fazer4 {
-          0% { left: 0; }
-          100% { left: -150px; opacity: 0; }
+        @keyframes speed-line4 {
+          0% { left: 0; opacity: 0.8; }
+          100% { left: -100px; opacity: 0; }
         }
 
-        @keyframes speeder {
-          0% { transform: translate(2px, 1px) rotate(0deg); }
-          10% { transform: translate(-1px, -3px) rotate(-1deg); }
-          20% { transform: translate(-2px, 0px) rotate(1deg); }
-          30% { transform: translate(1px, 2px) rotate(0deg); }
-          40% { transform: translate(1px, -1px) rotate(1deg); }
-          50% { transform: translate(-1px, 3px) rotate(-1deg); }
-          60% { transform: translate(-1px, 1px) rotate(0deg); }
-          70% { transform: translate(3px, 1px) rotate(-1deg); }
-          80% { transform: translate(-2px, -1px) rotate(1deg); }
-          90% { transform: translate(2px, 1px) rotate(0deg); }
-          100% { transform: translate(1px, -2px) rotate(-1deg); }
+        @keyframes wheel-spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        @keyframes car-bounce {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-8px); }
         }
 
         .longfazers {
