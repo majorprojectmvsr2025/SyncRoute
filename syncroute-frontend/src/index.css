@@ -1,0 +1,620 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap&font-display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Clean, simple light theme */
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 222 47% 11%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 98%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 98%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 222 47% 11%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-primary: 222 47% 11%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 210 40% 96%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 214 32% 91%;
+    --sidebar-ring: 222 47% 11%;
+
+    --system-green: 142 76% 36%;
+    --system-green-foreground: 0 0% 98%;
+    --system-amber: 38 92% 50%;
+    --system-amber-foreground: 0 0% 98%;
+    --system-red: 0 84% 60%;
+
+    --brand: 222 47% 11%;
+    --brand-accent: 24 95% 53%;
+
+    --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  }
+
+  .dark {
+    --background: 0 0% 7%;
+    --foreground: 0 0% 95%;
+
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 0 0% 95%;
+    --primary-foreground: 0 0% 7%;
+
+    --secondary: 0 0% 14%;
+    --secondary-foreground: 0 0% 95%;
+
+    --muted: 0 0% 14%;
+    --muted-foreground: 0 0% 55%;
+
+    --accent: 0 0% 14%;
+    --accent-foreground: 0 0% 95%;
+
+    --destructive: 4 86% 58%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 152 69% 40%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 35 91% 55%;
+    --warning-foreground: 0 0% 7%;
+
+    --border: 0 0% 22%;
+    --input: 0 0% 22%;
+    --ring: 0 0% 75%;
+
+    --sidebar-background: 0 0% 7%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 0 0% 95%;
+    --sidebar-primary-foreground: 0 0% 7%;
+    --sidebar-accent: 0 0% 14%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 0 0% 18%;
+    --sidebar-ring: 0 0% 75%;
+
+    --system-green: 152 69% 40%;
+    --system-green-foreground: 0 0% 7%;
+    --system-amber: 35 91% 55%;
+    --system-amber-foreground: 0 0% 7%;
+    --system-red: 4 86% 58%;
+
+    --brand: 0 0% 95%;
+    --brand-accent: 24 95% 53%;
+
+    --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.4);
+    --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.5);
+  }
+}
+
+@layer base {
+  /* Only apply border-color to elements that explicitly use border utilities */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Sora', 'DM Sans', sans-serif;
+    @apply font-semibold tracking-tight;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+  }
+
+  ::selection {
+    background-color: hsl(var(--primary) / 0.2);
+    color: hsl(var(--foreground));
+  }
+
+  .dark ::selection {
+    background-color: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+  }
+
+input::placeholder, textarea::placeholder {
+    @apply text-muted-foreground/50;
+  }
+
+  button { @apply outline-none; }
+
+  /* Remove default browser focus outlines that cause black borders */
+  input, textarea, select, button {
+    outline: none;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px hsl(var(--primary) / 0.12);
+    border-color: hsl(var(--primary) / 0.5) !important;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Sora', 'DM Sans', sans-serif;
+    letter-spacing: -0.03em;
+  }
+
+  .font-mono {
+    font-family: 'DM Mono', 'Fira Code', ui-monospace, monospace;
+  }
+
+  /* Glass */
+  .glass {
+    background: hsl(var(--background) / 0.85);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+  }
+
+  /* Gradient text */
+  .text-gradient {
+    background: linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(var(--brand-accent)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Animations */
+  .animate-in-up {
+    animation: inUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .animate-in-fade {
+    animation: inFade 0.4s ease both;
+  }
+  .animate-in-scale {
+    animation: inScale 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  /* Stagger delays */
+  .delay-75  { animation-delay: 75ms; }
+  .delay-150 { animation-delay: 150ms; }
+  .delay-225 { animation-delay: 225ms; }
+  .delay-300 { animation-delay: 300ms; }
+
+  /* Hover lift */
+  .hover-lift {
+    @apply transition-all duration-200;
+  }
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Focus ring */
+  .focus-ring {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  /* Container */
+  .page-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Divider */
+  .divider {
+    @apply border-t border-border;
+  }
+}
+
+@keyframes inUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes inFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes inScale {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+/* ── SCROLLBAR ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 4px;
+  border: 2px solid hsl(var(--background));
+}
+::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground) / 0.4); }
+
+/* ── FOCUS ─────────────────────────────────────────────── */
+*:focus { outline: none; }
+*:focus-visible {
+  outline: 2px solid hsl(var(--primary) / 0.5);
+  outline-offset: 2px;
+}
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px hsl(var(--primary) / 0.12);
+  border-color: hsl(var(--primary) / 0.5) !important;
+}
+/* Prevent black borders on all interactive elements */
+input, textarea, select {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* ── BUTTONS ───────────────────────────────────────────── */
+.btn {
+  @apply inline-flex items-center justify-center gap-2 font-semibold transition-all duration-200 focus-ring disabled:opacity-50 disabled:cursor-not-allowed select-none;
+  letter-spacing: -0.01em;
+}
+.btn-primary {
+  @apply bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.98];
+  box-shadow: var(--shadow-sm);
+}
+.btn-secondary {
+  @apply bg-secondary text-secondary-foreground hover:bg-secondary/70 active:scale-[0.98];
+}
+.btn-outline {
+  @apply border border-border bg-transparent hover:bg-accent hover:border-foreground/20 active:scale-[0.98];
+}
+.btn-ghost {
+  @apply bg-transparent hover:bg-accent active:scale-[0.98];
+}
+.btn-danger {
+  @apply bg-destructive text-destructive-foreground hover:opacity-90 active:scale-[0.98];
+}
+.btn-sm  { @apply h-8  px-3.5 text-sm  rounded-lg; }
+.btn-md  { @apply h-10 px-5   text-sm  rounded-xl; }
+.btn-lg  { @apply h-12 px-7   text-base rounded-xl; }
+.btn-xl  { @apply h-14 px-8   text-base rounded-2xl; }
+
+/* ── INPUTS ────────────────────────────────────────────── */
+.input {
+  @apply w-full bg-background border border-border/60 rounded-xl text-foreground placeholder:text-muted-foreground/40 transition-all duration-200;
+  @apply focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary/40;
+  padding: 0.6875rem 1rem;
+  font-size: 0.9375rem;
+  box-shadow: none;
+}
+.input:hover:not(:focus) {
+  border-color: hsl(var(--border));
+}
+.input-sm { @apply rounded-lg; padding: 0.5rem 0.75rem; font-size: 0.875rem; }
+.input-error { @apply border-destructive/60 focus:ring-destructive/15 focus:border-destructive; }
+
+/* ── CARDS ─────────────────────────────────────────────── */
+.card {
+  @apply bg-card border border-border rounded-2xl;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card-hover {
+  @apply transition-all duration-200 hover:-translate-y-0.5;
+  &:hover { 
+    box-shadow: var(--shadow-md); 
+    border-color: hsl(var(--border) / 0.8);
+  }
+}
+.card-interactive {
+  @apply cursor-pointer transition-all duration-200 hover:-translate-y-1;
+  &:hover { 
+    box-shadow: var(--shadow-lg); 
+    border-color: hsl(var(--primary) / 0.15); 
+  }
+  &:active {
+    transform: translateY(-2px) scale(0.99);
+  }
+}
+.card-elevated {
+  box-shadow: var(--shadow-md);
+  @apply transition-all duration-200;
+  &:hover {
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+/* ── BADGES ────────────────────────────────────────────── */
+.badge {
+  @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold;
+}
+.badge-primary   { @apply bg-primary/10 text-primary; }
+.badge-success   { @apply bg-success/10 text-success; }
+.badge-warning   { @apply bg-warning/10 text-warning; }
+.badge-danger    { @apply bg-destructive/10 text-destructive; }
+.badge-neutral   { @apply bg-muted text-muted-foreground; }
+.badge-accent    { @apply bg-brand-accent/10 text-brand-accent; }
+
+/* ── SPINNER ───────────────────────────────────────────── */
+.spinner {
+  width: 20px; height: 20px;
+  border: 2.5px solid hsl(var(--border));
+  border-top-color: hsl(var(--primary));
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* ── LEAFLET ───────────────────────────────────────────── */
+.leaflet-container {
+  font-family: 'DM Sans', sans-serif;
+  border-radius: var(--radius);
+  z-index: 0;
+}
+.leaflet-popup-content-wrapper {
+  background: hsl(var(--card));
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-lg);
+  padding: 0;
+}
+.leaflet-popup-content { margin: 0; }
+.leaflet-popup-tip { background: hsl(var(--card)); }
+.leaflet-control-zoom {
+  border: 1px solid hsl(var(--border)) !important;
+  border-radius: 0.75rem !important;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm) !important;
+}
+.leaflet-control-zoom a {
+  background: hsl(var(--card)) !important;
+  color: hsl(var(--foreground)) !important;
+  border-bottom: 1px solid hsl(var(--border)) !important;
+  width: 36px !important; height: 36px !important;
+  line-height: 36px !important; font-size: 16px !important;
+  transition: background 0.15s;
+}
+.leaflet-control-zoom a:hover { background: hsl(var(--accent)) !important; }
+.leaflet-control-attribution {
+  background: hsl(var(--card) / 0.9) !important;
+  color: hsl(var(--muted-foreground)) !important;
+  font-size: 10px !important;
+  backdrop-filter: blur(8px);
+  border-radius: 0.375rem;
+  padding: 3px 8px !important;
+}
+
+/* ── DARK MODE ─────────────────────────────────────────── */
+.dark { color-scheme: dark; }
+
+/* ── PRINT ─────────────────────────────────────────────── */
+@media print { .no-print { display: none !important; } }
+
+/* ── PERFORMANCE ───────────────────────────────────────── */
+/* GPU-accelerate elements that animate */
+.card-interactive,
+.card-hover,
+.btn,
+[class*="animate-"] {
+  will-change: transform;
+}
+/* Contain paint for heavy sections */
+.page-container > section {
+  contain: layout style;
+}
+/* Reduce layout thrash on scroll */
+.fixed, [style*="position: fixed"] {
+  transform: translateZ(0);
+}
+
+/* ── BUTTON RIPPLE ─────────────────────────────────────── */
+.btn-ripple {
+  position: relative;
+  overflow: hidden;
+}
+.btn-ripple::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.25) 0%, transparent 70%);
+  opacity: 0;
+  transform: scale(0);
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+.btn-ripple:active::after {
+  opacity: 1;
+  transform: scale(2.5);
+  transition: none;
+}
+
+/* ── ANIMATE IN ────────────────────────────────────────── */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+.animate-slide-up   { animation: slideUp   0.35s cubic-bezier(0.16,1,0.3,1) both; }
+.animate-slide-down { animation: slideDown 0.3s  cubic-bezier(0.16,1,0.3,1) both; }
+.animate-scale-in   { animation: scaleIn   0.3s  cubic-bezier(0.16,1,0.3,1) both; }
+.animate-fade-in    { animation: fadeIn    0.3s  ease both; }
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.08), transparent);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* ── LANDING PAGE EXTRAS ───────────────────────────────── */
+.stat-counter {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+.feature-card-glow:hover {
+  box-shadow: 0 0 0 1px hsl(var(--primary)/0.15), 0 8px 32px -8px hsl(var(--primary)/0.12);
+}
+.testimonial-card {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border)/0.6);
+  border-radius: 20px;
+  padding: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.testimonial-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px -8px rgba(0,0,0,0.1);
+}
+
+/* ── CALENDAR ──────────────────────────────────────────── */
+.calendar-panel {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border) / 0.6);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px -10px rgba(0,0,0,0.12), 0 8px 24px -4px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+.dark .calendar-panel {
+  box-shadow: 0 20px 60px -10px rgba(0,0,0,0.5), 0 8px 24px -4px rgba(0,0,0,0.3);
+}
+.calendar-day-btn {
+  @apply h-9 w-9 flex items-center justify-center text-sm rounded-xl transition-all duration-150 font-medium;
+}
+.calendar-day-btn:not(:disabled):hover {
+  background: hsl(var(--accent));
+  transform: scale(1.08);
+}
+.calendar-day-btn.selected {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  box-shadow: 0 2px 8px hsl(var(--primary) / 0.35);
+  transform: scale(1.05);
+}
+.calendar-day-btn.today:not(.selected) {
+  background: hsl(var(--primary) / 0.08);
+  color: hsl(var(--primary));
+  font-weight: 700;
+}
+.calendar-day-btn:disabled {
+  opacity: 0.22;
+  cursor: not-allowed;
+}
+
+/* ── SEARCH FIELD ──────────────────────────────────────── */
+.search-field {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent;
+}
+.search-field:focus {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* ── LOCATION PANEL ────────────────────────────────────── */
+.location-panel-input {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent;
+  width: 100%;
+  font-size: 15px;
+  font-weight: 500;
+  color: hsl(var(--foreground));
+}
+.location-panel-input::placeholder {
+  color: hsl(var(--muted-foreground) / 0.5);
+}
+.location-panel-input:focus {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* ── PORTAL PANEL ──────────────────────────────────────── */
+.portal-panel {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border) / 0.5);
+  border-radius: 20px;
+  box-shadow: 0 24px 64px -12px rgba(0,0,0,0.14), 0 8px 24px -4px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+.dark .portal-panel {
+  border-color: hsl(var(--border) / 0.4);
+  box-shadow: 0 24px 64px -12px rgba(0,0,0,0.55), 0 8px 24px -4px rgba(0,0,0,0.35);
+}
+
+/* ── OFFER RIDE FIELDS ─────────────────────────────────── */
+.offer-field {
+  @apply flex items-center gap-3 px-4 py-3.5 rounded-xl border border-border/50 bg-card cursor-pointer transition-all duration-200;
+}
+.offer-field:hover {
+  border-color: hsl(var(--primary) / 0.3);
+  background: hsl(var(--accent) / 0.5);
+}
+.offer-field.active {
+  border-color: hsl(var(--primary) / 0.4);
+  background: hsl(var(--primary) / 0.04);
+  box-shadow: 0 0 0 3px hsl(var(--primary) / 0.08);
+}
