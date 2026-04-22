@@ -270,7 +270,7 @@ export default function OfferRide() {
       toast.info("Redirecting to complete document verification...");
       
       // Redirect to profile with documents section highlighted
-      window.location.href = '/profile#documents';
+      navigate('/profile?tab=documents');
       
     } catch (error: any) {
       console.error("Verification error:", error);

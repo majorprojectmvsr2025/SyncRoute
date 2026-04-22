@@ -856,7 +856,7 @@ const Index = () => {
                     </div>
 
                     {/* Match badge overlay */}
-                    <div className="absolute -top-3 -right-3 bg-success text-success-foreground text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+                    <div className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 bg-success text-success-foreground text-[10px] sm:text-xs font-bold px-2 py-1 sm:px-3 sm:py-1.5 rounded-full shadow-lg whitespace-nowrap">
                       Route matched ✓
                     </div>
                   </div>
