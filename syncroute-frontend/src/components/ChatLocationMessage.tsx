@@ -235,17 +235,20 @@ export function ShareLocationButton({ rideId, receiverId, onShared }: ShareLocat
 
       const { latitude, longitude } = position.coords;
 
-      // Reverse geocode to get address (simplified)
+      // Reverse geocode to get address using OpenStreetMap (free, no API key needed)
       let address = "Current location";
       try {
         const response = await fetch(
-          `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${
-            import.meta.env.VITE_MAPBOX_TOKEN
-          }&limit=1`
+          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`,
+          {
+            headers: {
+              'User-Agent': 'SyncRoute/1.0'
+            }
+          }
         );
         const data = await response.json();
-        if (data.features?.[0]?.place_name) {
-          address = data.features[0].place_name;
+        if (data.display_name) {
+          address = data.display_name;
         }
       } catch {
         // Use fallback address
@@ -287,17 +290,20 @@ export function ShareLocationButton({ rideId, receiverId, onShared }: ShareLocat
 
       const { latitude, longitude } = position.coords;
 
-      // Reverse geocode to get address
+      // Reverse geocode to get address using OpenStreetMap (free, no API key needed)
       let address = "Live location";
       try {
         const response = await fetch(
-          `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${
-            import.meta.env.VITE_MAPBOX_TOKEN
-          }&limit=1`
+          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`,
+          {
+            headers: {
+              'User-Agent': 'SyncRoute/1.0'
+            }
+          }
         );
         const data = await response.json();
-        if (data.features?.[0]?.place_name) {
-          address = data.features[0].place_name;
+        if (data.display_name) {
+          address = data.display_name;
         }
       } catch {
         // Use fallback address
