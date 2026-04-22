@@ -104,7 +104,7 @@ export function Navbar() {
                   Sign in
                 </Link>
                 <Link to="/sign-up" className="btn btn-primary btn-sm hidden md:inline-flex">
-                  Get started
+                  Sign up
                 </Link>
               </>
             )}
@@ -165,7 +165,7 @@ export function Navbar() {
                 ) : (
                   <div className="flex flex-col gap-2">
                     <Link to="/sign-in" className="btn btn-outline btn-md w-full">Sign in</Link>
-                    <Link to="/sign-up" className="btn btn-primary btn-md w-full">Get started — it's free</Link>
+                    <Link to="/sign-up" className="btn btn-primary btn-md w-full">Sign up</Link>
                   </div>
                 )}
               </div>

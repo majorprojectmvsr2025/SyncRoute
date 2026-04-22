@@ -29,7 +29,7 @@ function useReveal(threshold = 0.15) {
     );
     obs.observe(el);
     return () => obs.disconnect();
-  }, [threshold]);
+  }, []); // Empty deps - threshold is stable
   return { ref, visible };
 }
 
@@ -40,7 +40,7 @@ function useParallax(speed = 0.5) {
     const handleScroll = () => setOffset(window.pageYOffset * speed);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [speed]);
+  }, []); // Empty deps - speed is stable
   return offset;
 }
 
@@ -52,7 +52,7 @@ function useCounter(end: number, duration = 2000) {
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || hasStarted) return;
     
     const obs = new IntersectionObserver(
       ([entry]) => {
@@ -76,7 +76,7 @@ function useCounter(end: number, duration = 2000) {
     );
     obs.observe(el);
     return () => obs.disconnect();
-  }, [end, duration, hasStarted]);
+  }, [hasStarted]); // Only depend on hasStarted, end and duration are stable
 
   return { ref, count };
 }
