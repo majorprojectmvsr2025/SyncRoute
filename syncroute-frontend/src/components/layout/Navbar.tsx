@@ -158,10 +158,6 @@ export function Navbar() {
                     <ThemeToggle />
                     <NotificationBell />
                   </div>
-
-                  <Link to="/offer-ride" className="btn btn-primary btn-md w-full mb-3">
-                    <Plus className="h-4 w-4" /> Offer ride
-                  </Link>
                 </>
               )}
               {navLinks.map((item) => (
