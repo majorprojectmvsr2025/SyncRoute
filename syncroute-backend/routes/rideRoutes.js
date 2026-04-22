@@ -26,29 +26,53 @@ const router = express.Router();
  * - Ride date/time is at least 3 hours in the future OR ride hasn't started yet
  */
 function isRideAvailable(ride) {
-  if (ride.status !== "active") return false;
-  
-  const now = new Date();
-  const today = now.toISOString().split("T")[0];
-  
-  // Parse ride date and time
-  const rideDate = ride.date;
-  const rideTime = ride.departureTime || "00:00";
-  
-  // Build ride datetime
-  const [hours, minutes] = rideTime.split(":").map(Number);
-  const rideDateTime = new Date(rideDate);
-  rideDateTime.setHours(hours, minutes, 0, 0);
-  
-  // Ride must be at least 3 hours from now to be shown
-  const threeHoursFromNow = new Date(now.getTime() + 3 * 60 * 60 * 1000);
-  
-  // If ride datetime is before 3 hours from now, it's no longer available
-  if (rideDateTime < threeHoursFromNow) {
-    return false;
+  try {
+    if (ride.status !== "active") return false;
+    
+    const now = new Date();
+    const today = now.toISOString().split("T")[0];
+    
+    // Parse ride date and time
+    const rideDate = ride.date;
+    const rideTime = ride.departureTime || "00:00";
+    
+    // Validate time format
+    if (!rideTime || typeof rideTime !== 'string' || !rideTime.includes(':')) {
+      console.warn(`[isRideAvailable] Invalid time format for ride ${ride._id}: ${rideTime}`);
+      return true; // Show ride if time format is invalid (fail open)
+    }
+    
+    // Build ride datetime
+    const [hours, minutes] = rideTime.split(":").map(Number);
+    
+    // Validate parsed values
+    if (isNaN(hours) || isNaN(minutes)) {
+      console.warn(`[isRideAvailable] Invalid time values for ride ${ride._id}: ${rideTime}`);
+      return true; // Show ride if time parsing fails (fail open)
+    }
+    
+    const rideDateTime = new Date(rideDate);
+    rideDateTime.setHours(hours, minutes, 0, 0);
+    
+    // Check if date is valid
+    if (isNaN(rideDateTime.getTime())) {
+      console.warn(`[isRideAvailable] Invalid date for ride ${ride._id}: ${rideDate}`);
+      return true; // Show ride if date is invalid (fail open)
+    }
+    
+    // Ride must be at least 3 hours from now to be shown
+    const threeHoursFromNow = new Date(now.getTime() + 3 * 60 * 60 * 1000);
+    
+    // If ride datetime is before 3 hours from now, it's no longer available
+    if (rideDateTime < threeHoursFromNow) {
+      return false;
+    }
+    
+    return true;
+  } catch (error) {
+    console.error(`[isRideAvailable] Error checking availability for ride ${ride._id}:`, error);
+    return true; // Fail open - show the ride if there's an error
   }
-  
-  return true;
 }
 
 /**
