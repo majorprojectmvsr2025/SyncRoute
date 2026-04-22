@@ -394,17 +394,25 @@ router.post("/search", optionalAuth, async (req, res) => {
 
 router.get("/all", async (req, res) => {
   try {
+    console.log("[GET /all] Fetching all active rides...");
     const today = new Date().toISOString().split("T")[0];
+    console.log("[GET /all] Today's date:", today);
+    
     const rides = await Ride.find({ status: "active", date: { $gte: today } })
       .populate("driver", "-password")
       .sort({ date: 1, departureTime: 1 });
     
+    console.log(`[GET /all] Found ${rides.length} rides from database`);
+    
     // Filter rides based on 3-hour availability window
     const availableRides = rides.filter(ride => isRideAvailable(ride));
     
+    console.log(`[GET /all] Returning ${availableRides.length} available rides after filtering`);
     res.json(availableRides);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("[GET /all] ERROR:", error);
+    console.error("[GET /all] Stack trace:", error.stack);
+    res.status(500).json({ error: error.message, details: error.toString() });
   }
 });
 
