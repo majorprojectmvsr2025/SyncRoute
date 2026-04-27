@@ -33,6 +33,7 @@ import {
   Navigation,
   UserCheck,
   XCircle,
+  Route,
 } from "lucide-react";
 import { toast } from "sonner";
 import { RideMap } from "@/components/map/RideMap";
