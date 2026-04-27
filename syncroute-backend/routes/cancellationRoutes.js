@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../middleware/auth');
+const { protect } = require('../middleware/auth');
 const {
   calculateCancellationPenalty,
   processCancellation,
@@ -25,7 +25,7 @@ router.get('/policy', (req, res) => {
  * POST /api/cancellation/calculate-penalty
  * Calculate cancellation penalty for a booking
  */
-router.post('/calculate-penalty', auth, async (req, res) => {
+router.post('/calculate-penalty', protect, async (req, res) => {
   try {
     const { bookingId } = req.body;
 
@@ -33,7 +33,7 @@ router.post('/calculate-penalty', auth, async (req, res) => {
       return res.status(400).json({ message: 'Booking ID is required' });
     }
 
-    const penalty = await calculateCancellationPenalty(bookingId, req.user.userId);
+    const penalty = await calculateCancellationPenalty(bookingId, req.user._id);
     
     res.json(penalty);
   } catch (error) {
@@ -48,7 +48,7 @@ router.post('/calculate-penalty', auth, async (req, res) => {
  * POST /api/cancellation/cancel-booking
  * Cancel a booking with penalty
  */
-router.post('/cancel-booking', auth, async (req, res) => {
+router.post('/cancel-booking', protect, async (req, res) => {
   try {
     const { bookingId, reason } = req.body;
 
@@ -62,7 +62,7 @@ router.post('/cancel-booking', auth, async (req, res) => {
       });
     }
 
-    const result = await processCancellation(bookingId, req.user.userId, reason);
+    const result = await processCancellation(bookingId, req.user._id, reason);
     
     if (result.success) {
       res.json(result);

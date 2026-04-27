@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../middleware/auth');
+const { protect } = require('../middleware/auth');
 const { validateRequest } = require('../middleware/security');
 const {
   calculateDriverSafetyScore,
@@ -15,7 +15,7 @@ const SafetyIncident = require('../models/SafetyIncident');
  * GET /api/safety/driver-score/:driverId
  * Get driver safety score
  */
-router.get('/driver-score/:driverId', auth, async (req, res) => {
+router.get('/driver-score/:driverId', protect, async (req, res) => {
   try {
     const { driverId } = req.params;
     const safetyScore = await calculateDriverSafetyScore(driverId);
@@ -31,11 +31,11 @@ router.get('/driver-score/:driverId', auth, async (req, res) => {
  * POST /api/safety/report-incident
  * Report a safety incident
  */
-router.post('/report-incident', auth, async (req, res) => {
+router.post('/report-incident', protect, async (req, res) => {
   try {
     const incidentData = {
       ...req.body,
-      reportedBy: req.user.userId
+      reportedBy: req.user._id
     };
 
     const result = await reportSafetyIncident(incidentData);
@@ -55,9 +55,9 @@ router.post('/report-incident', auth, async (req, res) => {
  * GET /api/safety/user-stats
  * Get safety statistics for current user
  */
-router.get('/user-stats', auth, async (req, res) => {
+router.get('/user-stats', protect, async (req, res) => {
   try {
-    const stats = await getUserSafetyStats(req.user.userId);
+    const stats = await getUserSafetyStats(req.user._id);
     res.json(stats);
   } catch (error) {
     console.error('Error getting user safety stats:', error);
@@ -69,7 +69,7 @@ router.get('/user-stats', auth, async (req, res) => {
  * GET /api/safety/pre-ride-check/:rideId
  * Perform pre-ride safety check
  */
-router.get('/pre-ride-check/:rideId', auth, async (req, res) => {
+router.get('/pre-ride-check/:rideId', protect, async (req, res) => {
   try {
     const { rideId } = req.params;
     const checkResult = await performPreRideSafetyCheck(rideId);
@@ -85,11 +85,11 @@ router.get('/pre-ride-check/:rideId', auth, async (req, res) => {
  * POST /api/safety/emergency-sos
  * Handle emergency SOS
  */
-router.post('/emergency-sos', auth, async (req, res) => {
+router.post('/emergency-sos', protect, async (req, res) => {
   try {
     const sosData = {
       ...req.body,
-      userId: req.user.userId
+      userId: req.user._id
     };
 
     const result = await handleEmergencySOS(sosData);
@@ -109,13 +109,13 @@ router.post('/emergency-sos', auth, async (req, res) => {
  * GET /api/safety/incidents
  * Get user's incident history
  */
-router.get('/incidents', auth, async (req, res) => {
+router.get('/incidents', protect, async (req, res) => {
   try {
     const { type, status } = req.query;
     const query = {
       $or: [
-        { reportedBy: req.user.userId },
-        { reportedAgainst: req.user.userId }
+        { reportedBy: req.user._id },
+        { reportedAgainst: req.user._id }
       ]
     };
 
@@ -140,7 +140,7 @@ router.get('/incidents', auth, async (req, res) => {
  * GET /api/safety/incident/:incidentId
  * Get specific incident details
  */
-router.get('/incident/:incidentId', auth, async (req, res) => {
+router.get('/incident/:incidentId', protect, async (req, res) => {
   try {
     const { incidentId } = req.params;
     
@@ -156,8 +156,8 @@ router.get('/incident/:incidentId', auth, async (req, res) => {
 
     // Check if user is authorized to view this incident
     const isInvolved = 
-      incident.reportedBy._id.toString() === req.user.userId ||
-      incident.reportedAgainst?._id.toString() === req.user.userId;
+      incident.reportedBy._id.toString() === req.user._id.toString() ||
+      incident.reportedAgainst?._id.toString() === req.user._id.toString();
 
     if (!isInvolved && req.user.role !== 'admin') {
       return res.status(403).json({ message: 'Unauthorized to view this incident' });
