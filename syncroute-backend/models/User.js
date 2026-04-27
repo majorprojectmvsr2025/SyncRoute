@@ -149,6 +149,24 @@ const UserSchema = new mongoose.Schema({
     totalReviews: { type: Number, default: 0 },
     avgStars: { type: Number, default: 0 }
   },
+  // Passenger trust score (for cancellation tracking)
+  trustScore: {
+    score: { type: Number, default: 100, min: 0, max: 100 },
+    lastUpdated: { type: Date, default: Date.now }
+  },
+  // Safety flags for incident tracking
+  safetyFlags: {
+    hasIncidents: { type: Boolean, default: false },
+    incidentCount: { type: Number, default: 0 },
+    lastIncidentDate: { type: Date, default: null },
+    accountRestricted: { type: Boolean, default: false }
+  },
+  // Account status for safety management
+  accountStatus: {
+    type: String,
+    enum: ['active', 'suspended', 'banned', 'under_review'],
+    default: 'active'
+  },
   // Firebase Cloud Messaging token for push notifications
   fcmTokens: [{
     token: { type: String, required: true },

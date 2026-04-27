@@ -56,6 +56,30 @@ const BookingSchema = new mongoose.Schema({
     type: Date,
     default: null
   },
+  // Cancellation tracking
+  cancellationDetails: {
+    cancelledBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    },
+    cancelledAt: Date,
+    reason: String,
+    penaltyApplied: Boolean,
+    penaltyAmount: Number,
+    refundAmount: Number,
+    hoursBeforeRide: Number
+  },
+  // Fraud detection metadata
+  bookingMetadata: {
+    ipAddress: String,
+    deviceId: String,
+    userAgent: String,
+    bookingSource: {
+      type: String,
+      enum: ['web', 'android', 'ios'],
+      default: 'web'
+    }
+  },
   // Review tracking
   hasReviewed: {
     type: Boolean,

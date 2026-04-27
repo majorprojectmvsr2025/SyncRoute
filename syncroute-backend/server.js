@@ -27,9 +27,19 @@ const recurringRideRoutes = require("./routes/recurringRideRoutes");
 const gamificationRoutes = require("./routes/gamificationRoutes");
 const corporateRoutes = require("./routes/corporateRoutes");
 const chatbotRoutes = require("./routes/chatbotRoutes");
+const safetyRoutes = require("./routes/safetyRoutes");
+const cancellationRoutes = require("./routes/cancellationRoutes");
 
 const app = express();
 const httpServer = http.createServer(app);
+
+// Import security middleware
+const {
+  noSQLInjectionProtection,
+  sanitizeQuery,
+  deviceFingerprint,
+  suspiciousActivityDetection
+} = require('./middleware/security');
 
 // Security
 app.use(helmet({
@@ -62,6 +72,12 @@ app.use(generalLimiter);
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
+
+// Security middleware - CRITICAL for production
+app.use(noSQLInjectionProtection);  // Prevents NoSQL injection attacks
+app.use(sanitizeQuery);              // Sanitizes query parameters
+app.use(deviceFingerprint);          // Tracks device info for fraud detection
+app.use(suspiciousActivityDetection); // Detects malicious patterns
 
 // MongoDB
 const mongoOptions = {
@@ -130,6 +146,8 @@ app.use("/api/gamification", gamificationRoutes);
 app.use("/api/corporate", corporateRoutes);
 app.use("/api/chatbot", chatbotRoutes);
 app.use("/api/push", pushRoutes);
+app.use("/api/safety", safetyRoutes);
+app.use("/api/cancellation", cancellationRoutes);
 
 // Health check with cloud status
 app.get("/api/health", (req, res) => {
