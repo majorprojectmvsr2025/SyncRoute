@@ -3,19 +3,58 @@
  * Protects against NoSQL injection, XSS, and other attacks
  */
 
-const mongoSanitize = require('express-mongo-sanitize');
 const Joi = require('joi');
 
 /**
  * NoSQL Injection Protection Middleware
  * Removes $ and . from user input to prevent query injection
+ * Custom implementation compatible with Express 5.x
  */
-const noSQLInjectionProtection = mongoSanitize({
-  replaceWith: '_',
-  onSanitize: ({ req, key }) => {
-    console.warn(`[SECURITY] Sanitized potentially malicious input: ${key} in ${req.path}`);
+function noSQLInjectionProtection(req, res, next) {
+  // Sanitize req.body
+  if (req.body && typeof req.body === 'object') {
+    req.body = sanitizeObject(req.body);
   }
-});
+  
+  // Sanitize req.params
+  if (req.params && typeof req.params === 'object') {
+    req.params = sanitizeObject(req.params);
+  }
+  
+  // Note: req.query is read-only in Express 5, handled by sanitizeQuery middleware
+  
+  next();
+}
+
+/**
+ * Recursively sanitize an object by removing $ and . from keys
+ */
+function sanitizeObject(obj) {
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+  
+  if (Array.isArray(obj)) {
+    return obj.map(item => sanitizeObject(item));
+  }
+  
+  const sanitized = {};
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      // Remove $ and . from keys
+      const sanitizedKey = key.replace(/[$\.]/g, '_');
+      
+      if (sanitizedKey !== key) {
+        console.warn(`[SECURITY] Sanitized key: ${key} -> ${sanitizedKey} in request`);
+      }
+      
+      // Recursively sanitize nested objects
+      sanitized[sanitizedKey] = sanitizeObject(obj[key]);
+    }
+  }
+  
+  return sanitized;
+}
 
 /**
  * Input Validation Schemas
