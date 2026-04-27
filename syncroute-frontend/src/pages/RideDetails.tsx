@@ -672,16 +672,19 @@ export default function RideDetails() {
   const userSegmentKm = userSegmentDistanceM ? (userSegmentDistanceM / 1000) : null;
   const totalRideKm = ride.estimatedDistance ? (ride.estimatedDistance / 1000) : null;
   
-  // Always calculate proportional price if we have segment data
-  const effectivePrice = userSegmentKm && totalRideKm && totalRideKm > 0
-    ? Math.max(1, Math.round(ride.price * (userSegmentKm / totalRideKm)))
-    : ride.price;
+  // Use proportional price from backend if available, otherwise calculate
+  const effectivePrice = ride.proportionalPrice 
+    ? ride.proportionalPrice
+    : (userSegmentKm && totalRideKm && totalRideKm > 0)
+      ? Math.max(10, Math.round(ride.price * (userSegmentKm / totalRideKm)))
+      : ride.price;
   
   const totalPrice = effectivePrice * seats;
   const finalPrice = totalPrice; // No service fee — SyncRoute charges no commission
+  const fullRidePrice = ride.fullRidePrice || ride.price;
   
   // Show if this is proportional pricing
-  const isProportionalPrice = userSegmentKm && totalRideKm && userSegmentKm < totalRideKm;
+  const isProportionalPrice = effectivePrice < fullRidePrice;
 
   const driverAvgRating =
     driverReviews.length > 0

@@ -273,6 +273,12 @@ router.post("/search", optionalAuth, async (req, res) => {
         // Calculate match score for ranking
         const matchScore = calculateMatchScore(overlapAnalysis);
 
+        // Calculate proportional price for passenger's segment
+        const proportionalPriceForSegment = Math.max(
+          10, 
+          Math.round(ride.price * (overlapAnalysis.overlapDistM / overlapAnalysis.totalRouteM))
+        );
+
         matchResult = {
           ...ride.toObject(),
           pickupDistanceMeters: overlapAnalysis.pickupDistM,
@@ -285,7 +291,17 @@ router.post("/search", optionalAuth, async (req, res) => {
           walkingFromDropMinutes: overlapAnalysis.walkingFromDropMinutes,
           matchScore,
           matchQuality: overlapAnalysis.overlapPercentage >= 80 ? 'excellent' : 
-                        overlapAnalysis.overlapPercentage >= 70 ? 'good' : 'fair'
+                        overlapAnalysis.overlapPercentage >= 70 ? 'good' : 'fair',
+          // Add proportional pricing
+          proportionalPrice: proportionalPriceForSegment,
+          fullRidePrice: ride.price,
+          priceBreakdown: {
+            driverSetPrice: ride.price,
+            yourSegmentPrice: proportionalPriceForSegment,
+            yourSegmentKm: Math.round(overlapAnalysis.overlapDistM / 1000 * 10) / 10,
+            totalRideKm: Math.round(overlapAnalysis.totalRouteM / 1000 * 10) / 10,
+            savingsVsFullRide: ride.price - proportionalPriceForSegment
+          }
         };
 
         console.log(`  [MATCH] ${ride.from?.name} -> ${ride.to?.name} | overlap ${overlapAnalysis.overlapPercentage}% | score ${matchScore}`);
@@ -319,6 +335,16 @@ router.post("/search", optionalAuth, async (req, res) => {
           continue;
         }
 
+        // Estimate distances for fallback (rough approximation)
+        const estimatedTotalDist = ride.estimatedDistance || 50000; // Default 50km if not available
+        const estimatedOverlapDist = Math.round(estimatedTotalDist * (estimatedOverlap / 100));
+
+        // Calculate proportional price for fallback
+        const proportionalPriceForSegment = Math.max(
+          10,
+          Math.round(ride.price * (estimatedOverlap / 100))
+        );
+
         matchResult = {
           ...ride.toObject(),
           pickupDistanceMeters: pickupDistM,
@@ -328,7 +354,18 @@ router.post("/search", optionalAuth, async (req, res) => {
           walkingFromDropMinutes: Math.round(dropDistM / 80),
           matchScore: Math.round(estimatedOverlap * 0.8), // Lower score for fallback matches
           matchQuality: estimatedOverlap >= 80 ? 'good' : 'fair',
-          isFallbackMatch: true
+          isFallbackMatch: true,
+          // Add proportional pricing for fallback
+          proportionalPrice: proportionalPriceForSegment,
+          fullRidePrice: ride.price,
+          priceBreakdown: {
+            driverSetPrice: ride.price,
+            yourSegmentPrice: proportionalPriceForSegment,
+            yourSegmentKm: Math.round(estimatedOverlapDist / 1000 * 10) / 10,
+            totalRideKm: Math.round(estimatedTotalDist / 1000 * 10) / 10,
+            savingsVsFullRide: ride.price - proportionalPriceForSegment,
+            isEstimated: true
+          }
         };
 
         console.log(`  [MATCH-FALLBACK] ${ride.from?.name} -> ${ride.to?.name} | estimated overlap ${estimatedOverlap}%`);

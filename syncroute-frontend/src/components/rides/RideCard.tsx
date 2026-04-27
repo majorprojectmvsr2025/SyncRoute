@@ -100,10 +100,16 @@ export function RideCard({ ride, searchCoords }: RideCardProps) {
   const seatsPercent = seatsTotal > 0 ? (seatsLeft / seatsTotal) * 100 : 0;
   const seatsColor = seatsPercent > 50 ? "text-neutral-600 dark:text-neutral-400" : seatsPercent > 20 ? "text-neutral-500 dark:text-neutral-400" : "text-neutral-900 dark:text-white";
 
-  const isPartial = ride.overlapDistanceMeters != null && ride.estimatedDistance > 0;
-  const effectivePrice = isPartial
-    ? Math.max(1, Math.round(ride.price * ride.overlapDistanceMeters / ride.estimatedDistance))
-    : ride.price ?? 0;
+  // Use proportional price from backend if available, otherwise calculate
+  const hasProportionalPrice = ride.proportionalPrice != null;
+  const effectivePrice = hasProportionalPrice 
+    ? ride.proportionalPrice 
+    : (ride.overlapDistanceMeters != null && ride.totalRouteDistance > 0)
+      ? Math.max(10, Math.round(ride.price * ride.overlapDistanceMeters / ride.totalRouteDistance))
+      : ride.price ?? 0;
+
+  const fullRidePrice = ride.fullRidePrice || ride.price;
+  const isProportionalPricing = effectivePrice < fullRidePrice;
 
   const estimate = computeArrival(
     ride.departureTime,
@@ -231,9 +237,16 @@ export function RideCard({ ride, searchCoords }: RideCardProps) {
         </div>
 
         {/* Price column — clean, no overlap */}
-        <div className="text-right shrink-0 min-w-[56px]">
+        <div className="text-right shrink-0 min-w-[80px]">
           <div className="text-xl font-bold leading-none text-neutral-900 dark:text-white">{"\u20B9"}{effectivePrice}</div>
-          <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">per seat</div>
+          <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
+            {isProportionalPricing ? "your segment" : "per seat"}
+          </div>
+          {isProportionalPricing && fullRidePrice && (
+            <div className="text-[10px] text-neutral-400 dark:text-neutral-500 mt-0.5 line-through">
+              ₹{fullRidePrice} full ride
+            </div>
+          )}
         </div>
       </div>
 
