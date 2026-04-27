@@ -6,7 +6,8 @@
 **Location**: `syncroute-backend/middleware/security.js`
 
 **What was done**:
-- Added `express-mongo-sanitize` middleware to remove `$` and `.` from user input
+- Created custom NoSQL injection protection middleware (Express 5.x compatible)
+- Removed `express-mongo-sanitize` (incompatible with Express 5.x)
 - Created input validation schemas using Joi for all critical endpoints
 - Added query parameter sanitization
 - Implemented suspicious activity detection

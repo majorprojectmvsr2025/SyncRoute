@@ -101,7 +101,6 @@
 
 ```json
 {
-  "express-mongo-sanitize": "^2.x",
   "joi": "^17.x",
   "ioredis": "^5.x"
 }

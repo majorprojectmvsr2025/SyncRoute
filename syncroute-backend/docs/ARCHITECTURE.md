@@ -341,7 +341,8 @@ if (riskScore > 0.7) {
 
 #### Input Sanitization
 ```javascript
-const mongoSanitize = require('express-mongo-sanitize');
+// Custom NoSQL injection protection (Express 5.x compatible)
+const { noSQLInjectionProtection, sanitizeQuery } = require('./middleware/security');
 
 // Middleware to prevent NoSQL injection
 app.use(mongoSanitize({
