@@ -50,7 +50,7 @@ interface AuthContextType {
   token: string | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (data: { name: string; email: string; password: string; phone?: string; role?: string }) => Promise<void>;
+  register: (data: { name: string; email: string; password: string; phone?: string; role?: string }) => Promise<any>;
   googleLogin: (googleData: { email: string; name: string; googleId: string; photo?: string }) => Promise<void>;
   logout: () => void;
   updateUser: (user: User) => void;
@@ -101,17 +101,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const register = async (data: { name: string; email: string; password: string; phone?: string; role?: string }) => {
-    try {
-      const response = await authAPI.register(data);
-      setUser(response);
-      setToken(response.token);
-      localStorage.setItem("token", response.token);
-      toast.success("Account created successfully!");
-    } catch (error: any) {
-      const message = error.response?.data?.message || "Registration failed";
-      toast.error(message);
-      throw error;
-    }
+    const response = await authAPI.register(data);
+    
+    // NEW FLOW: Backend returns requiresVerification without token
+    // Don't set user or token - let SignUp component handle redirect to OTP page
+    return response;
   };
 
   const googleLogin = async (googleData: { email: string; name: string; googleId: string; photo?: string }) => {

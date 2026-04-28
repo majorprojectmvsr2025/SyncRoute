@@ -1,13 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Loader2, ArrowLeft, Mail, RefreshCw } from "lucide-react";
-import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 import { authAPI } from "@/lib/api";
 
 export default function VerifyEmail() {
   const navigate = useNavigate();
-  const { login } = useAuth();
   const [searchParams] = useSearchParams();
   const email = searchParams.get("email") || "";
   
@@ -94,17 +92,15 @@ export default function VerifyEmail() {
     try {
       const response = await authAPI.verifyOTP({ email, otp: code });
       
-      if (response.verified && response.token) {
+      if (response.verified && response.token && response.user) {
         // Store token and user data
         localStorage.setItem("token", response.token);
         localStorage.setItem("user", JSON.stringify(response.user));
         
         toast.success("Email verified successfully! Welcome to SyncRoute 🎉");
         
-        // Use the login function from AuthContext to update state
-        await login({ email, password: "" }); // Password not needed, we have the token
-        
-        navigate("/");
+        // Reload the page to trigger AuthContext to fetch user with new token
+        window.location.href = "/";
       }
     } catch (err: any) {
       const errorData = err.response?.data;
