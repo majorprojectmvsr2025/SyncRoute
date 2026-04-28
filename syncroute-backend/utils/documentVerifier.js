@@ -1,5 +1,6 @@
 const Tesseract = require("tesseract.js");
 const sharp = require("sharp");
+const { detectWatermark } = require("./watermarkDetector");
 
 // Debug logging utility for document verification
 const verificationDebug = {
@@ -749,6 +750,7 @@ async function verifyDocument(imagePath, docType = "license", userId = 'unknown'
     overall: "pending",
     confidence: 0,
     layers: {
+      watermarkDetection: { status: "pending", details: {} },
       ocr: { status: "pending", details: {} },
       formatValidation: { status: "pending", details: {} },
       dateValidation: { status: "pending", details: {} },
@@ -762,6 +764,35 @@ async function verifyDocument(imagePath, docType = "license", userId = 'unknown'
   const maxScore = 3; // Reduced from 4 - image integrity no longer contributes to score
 
   try {
+    // Layer 0: Watermark & Fake Document Detection
+    verificationDebug.log('WATERMARK_DETECTION_START', { imagePath }, userId);
+    const watermarkResult = await detectWatermark(imagePath);
+    result.layers.watermarkDetection.details = watermarkResult;
+    
+    if (watermarkResult.isFake) {
+      result.layers.watermarkDetection.status = "fail";
+      result.overall = "rejected";
+      result.confidence = 0;
+      result.issues.push("FAKE DOCUMENT DETECTED: Document contains watermarks or fake document markers");
+      result.issues.push(...watermarkResult.warnings);
+      result.issues.push(`Detected patterns: ${watermarkResult.detectedPatterns.map(p => p.description).join(', ')}`);
+      
+      verificationDebug.log('WATERMARK_DETECTION_FAILED', {
+        isFake: true,
+        confidence: watermarkResult.confidence,
+        patterns: watermarkResult.detectedPatterns
+      }, userId);
+      
+      return result;
+    } else if (watermarkResult.hasWatermark && watermarkResult.confidence >= 60) {
+      result.layers.watermarkDetection.status = "warn";
+      result.issues.push(`Possible watermark detected (${watermarkResult.confidence}% confidence) - document may not be authentic`);
+      verificationDebug.log('WATERMARK_DETECTION_WARNING', watermarkResult, userId);
+    } else {
+      result.layers.watermarkDetection.status = "pass";
+      verificationDebug.log('WATERMARK_DETECTION_PASSED', { hasWatermark: false }, userId);
+    }
+
     // Layer 1: OCR
     const ocrText = await runOCR(imagePath);
     result.layers.ocr.details.textLength = ocrText.length;
@@ -896,6 +927,7 @@ async function verifyDocumentEnhanced(imagePath, docType = "license", userProfil
     verificationScore: 0,
     confidence: 0,
     layers: {
+      watermarkDetection: { status: "pending", details: {} },
       ocr: { status: "pending", details: {} },
       formatValidation: { status: "pending", details: {} },
       inputVerification: { status: "pending", details: {} },
@@ -951,6 +983,42 @@ async function verifyDocumentEnhanced(imagePath, docType = "license", userProfil
   }
 
   try {
+    // Layer 0: Watermark & Fake Document Detection
+    verificationDebug.log('WATERMARK_DETECTION_START', { imagePath }, userId);
+    const watermarkResult = await detectWatermark(imagePath);
+    result.layers.watermarkDetection.details = watermarkResult;
+    
+    if (watermarkResult.isFake) {
+      result.layers.watermarkDetection.status = "fail";
+      result.overall = "rejected";
+      result.verificationScore = 0;
+      result.confidence = 0;
+      result.issues.push("FAKE DOCUMENT DETECTED: Document contains watermarks or fake document markers");
+      result.issues.push(...watermarkResult.warnings);
+      result.issues.push(`Detected patterns: ${watermarkResult.detectedPatterns.map(p => p.description).join(', ')}`);
+      
+      verificationDebug.log('WATERMARK_DETECTION_FAILED', {
+        isFake: true,
+        confidence: watermarkResult.confidence,
+        patterns: watermarkResult.detectedPatterns
+      }, userId);
+      
+      // Calculate score even for fake documents (will be 0)
+      const scoringResult = calculateVerificationScore(scoringInput);
+      result.verificationScore = scoringResult.score;
+      result.scoring.breakdown = scoringResult.breakdown;
+      result.scoring.issues = scoringResult.issues;
+      
+      return result;
+    } else if (watermarkResult.hasWatermark && watermarkResult.confidence >= 60) {
+      result.layers.watermarkDetection.status = "warn";
+      result.issues.push(`Possible watermark detected (${watermarkResult.confidence}% confidence) - document may not be authentic`);
+      verificationDebug.log('WATERMARK_DETECTION_WARNING', watermarkResult, userId);
+    } else {
+      result.layers.watermarkDetection.status = "pass";
+      verificationDebug.log('WATERMARK_DETECTION_PASSED', { hasWatermark: false }, userId);
+    }
+
     // Layer 1: OCR
     const ocrText = await runOCR(imagePath);
     result.layers.ocr.details.textLength = ocrText.length;
