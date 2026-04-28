@@ -240,6 +240,16 @@ router.get("/conversations", protect, async (req, res) => {
     const conversationsMap = new Map();
 
     messages.forEach(msg => {
+      // Skip messages with deleted rides
+      if (!msg.ride || !msg.ride._id) {
+        return;
+      }
+
+      // Skip messages with deleted users
+      if (!msg.sender || !msg.receiver) {
+        return;
+      }
+
       const otherUser = msg.sender._id.toString() === req.user._id.toString()
         ? msg.receiver
         : msg.sender;
@@ -272,6 +282,7 @@ router.get("/conversations", protect, async (req, res) => {
     const conversations = Array.from(conversationsMap.values());
     res.json(conversations);
   } catch (error) {
+    console.error('[CONVERSATIONS] Error fetching conversations:', error);
     res.status(500).json({ error: error.message });
   }
 });
