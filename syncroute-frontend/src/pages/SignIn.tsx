@@ -4,6 +4,7 @@ import { Loader2, Eye, EyeOff, ArrowRight, Shield, Zap, Star } from "lucide-reac
 import { useGoogleLogin } from "@react-oauth/google";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
+import { Logo } from "@/components/ui/Logo";
 import axios from "axios";
 
 export default function SignIn() {
@@ -60,13 +61,8 @@ export default function SignIn() {
       <div className="flex-1 flex items-center justify-center px-4 sm:px-8 py-12">
         <div className="w-full max-w-[400px]">
           {/* Logo */}
-          <Link to="/" className="inline-flex items-center gap-2.5 mb-10 group">
-            <div className="h-9 w-9 bg-primary rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
-              <svg width="17" height="17" viewBox="0 0 18 18" fill="none">
-                <path d="M3 9h12M9 3l6 6-6 6" stroke="currentColor" className="stroke-primary-foreground" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
-            <span className="font-display font-bold text-lg text-foreground">SyncRoute</span>
+          <Link to="/" className="inline-block mb-10">
+            <Logo size="md" showText={true} className="hover:scale-105 transition-transform" />
           </Link>
 
           <h1 className="font-display font-bold text-3xl text-foreground mb-1.5">Welcome back</h1>

@@ -33,6 +33,9 @@ const cancellationRoutes = require("./routes/cancellationRoutes");
 const app = express();
 const httpServer = http.createServer(app);
 
+// Trust proxy - CRITICAL for Render deployment
+app.set('trust proxy', 1);
+
 // Import security middleware
 const {
   noSQLInjectionProtection,

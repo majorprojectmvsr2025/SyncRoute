@@ -4,6 +4,7 @@ import { Loader2, Eye, EyeOff, ArrowRight } from "lucide-react";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
+import { Logo } from "@/components/ui/Logo";
 import axios from "axios";
 
 const STRENGTH = [
@@ -57,13 +58,16 @@ export default function SignUp() {
       const response = await register({ name: name.trim(), email, password, phone, role: "passenger" });
       
       // Check if verification is required
-      if (response.requiresVerification) {
-        toast.success("Registration successful! Please check your email for verification code.");
+      if (response?.requiresVerification) {
+        // Success - redirect to verification
+        toast.success("Check your email for verification code!");
         navigate(`/verify-email?email=${encodeURIComponent(email)}`);
-      } else {
-        // Old flow - direct login (shouldn't happen with new backend)
-        navigate("/");
+        return;
       }
+      
+      // Old flow - shouldn't happen with new backend
+      toast.success("Account created successfully!");
+      navigate("/");
     } catch (err: any) {
       const errorData = err.response?.data;
       
@@ -71,9 +75,11 @@ export default function SignUp() {
       if (errorData?.requiresVerification) {
         toast.info(errorData.message || "Please verify your email to continue");
         navigate(`/verify-email?email=${encodeURIComponent(email)}`);
-      } else {
-        setError(errorData?.message || "Registration failed");
+        return;
       }
+      
+      // Show error in form
+      setError(errorData?.message || "Registration failed");
     } finally { setLoading(false); }
   };
 
@@ -86,13 +92,8 @@ export default function SignUp() {
       <div className="flex-1 flex items-center justify-center px-4 sm:px-8 py-12 overflow-y-auto">
         <div className="w-full max-w-[400px]">
           {/* Logo */}
-          <Link to="/" className="inline-flex items-center gap-2.5 mb-10 group">
-            <div className="h-9 w-9 bg-primary rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
-              <svg width="17" height="17" viewBox="0 0 18 18" fill="none">
-                <path d="M3 9h12M9 3l6 6-6 6" stroke="currentColor" className="stroke-primary-foreground" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
-            <span className="font-display font-bold text-lg text-foreground">SyncRoute</span>
+          <Link to="/" className="inline-block mb-10">
+            <Logo size="md" showText={true} className="hover:scale-105 transition-transform" />
           </Link>
 
           <h1 className="font-display font-bold text-3xl text-foreground mb-1.5">Create your account</h1>
