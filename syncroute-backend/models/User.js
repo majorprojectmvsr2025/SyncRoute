@@ -52,6 +52,19 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  // Email verification OTP
+  emailVerificationOTP: {
+    type: String,
+    default: null
+  },
+  emailVerificationOTPExpires: {
+    type: Date,
+    default: null
+  },
+  emailVerificationAttempts: {
+    type: Number,
+    default: 0
+  },
   role: {
     type: String,
     enum: ["passenger", "driver", "both"],
