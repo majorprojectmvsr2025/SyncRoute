@@ -54,10 +54,26 @@ export default function SignUp() {
     if (password.length < 6) { setError("Password must be at least 6 characters."); return; }
     setLoading(true); setError("");
     try {
-      await register({ name: name.trim(), email, password, phone, role: "passenger" });
-      navigate("/");
+      const response = await register({ name: name.trim(), email, password, phone, role: "passenger" });
+      
+      // Check if verification is required
+      if (response.requiresVerification) {
+        toast.success("Registration successful! Please check your email for verification code.");
+        navigate(`/verify-email?email=${encodeURIComponent(email)}`);
+      } else {
+        // Old flow - direct login (shouldn't happen with new backend)
+        navigate("/");
+      }
     } catch (err: any) {
-      setError(err.response?.data?.message || "Registration failed");
+      const errorData = err.response?.data;
+      
+      // If user exists but not verified, redirect to verification
+      if (errorData?.requiresVerification) {
+        toast.info(errorData.message || "Please verify your email to continue");
+        navigate(`/verify-email?email=${encodeURIComponent(email)}`);
+      } else {
+        setError(errorData?.message || "Registration failed");
+      }
     } finally { setLoading(false); }
   };
 

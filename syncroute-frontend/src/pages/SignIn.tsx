@@ -42,7 +42,15 @@ export default function SignIn() {
       await login(email, password);
       navigate(from, { replace: true });
     } catch (err: any) {
-      setError(err.response?.data?.message || "Login failed");
+      const errorData = err.response?.data;
+      
+      // If user not verified, redirect to verification page
+      if (errorData?.requiresVerification) {
+        toast.info("Please verify your email to continue");
+        navigate(`/verify-email?email=${encodeURIComponent(email)}`);
+      } else {
+        setError(errorData?.message || "Login failed");
+      }
     } finally { setLoading(false); }
   };
 

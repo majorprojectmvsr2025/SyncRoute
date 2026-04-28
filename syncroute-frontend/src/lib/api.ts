@@ -24,6 +24,14 @@ export const authAPI = {
     const response = await api.post("/auth/register", data);
     return response.data;
   },
+  verifyOTP: async (data: { email: string; otp: string }) => {
+    const response = await api.post("/auth/verify-otp", data);
+    return response.data;
+  },
+  resendOTP: async (data: { email: string }) => {
+    const response = await api.post("/auth/resend-otp", data);
+    return response.data;
+  },
   login: async (data: { email: string; password: string }) => {
     const response = await api.post("/auth/login", data);
     return response.data;
