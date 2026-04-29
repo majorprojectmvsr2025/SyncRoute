@@ -27,6 +27,7 @@ const sendOTPEmail = async (email, name, otp) => {
       const msg = {
         to: email,
         from: process.env.EMAIL_FROM || "SyncRoute <noreply@syncroute.app>",
+        replyTo: process.env.EMAIL_FROM || "SyncRoute <noreply@syncroute.app>",
         subject: "SyncRoute — Verify Your Email",
         html: `
           <div style="font-family: Inter, sans-serif; max-width: 480px; margin: 0 auto; background: #0f172a; color: #e2e8f0; padding: 32px; border-radius: 12px;">
