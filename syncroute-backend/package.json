@@ -15,6 +15,7 @@
   "type": "commonjs",
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
+    "@sendgrid/mail": "^8.1.6",
     "axios": "^1.13.5",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.6",
@@ -31,7 +32,6 @@
     "morgan": "^1.10.1",
     "multer": "^2.0.2",
     "nodemailer": "^8.0.1",
-    "@sendgrid/mail": "^8.1.4",
     "sharp": "^0.34.5",
     "socket.io": "^4.8.3",
     "tesseract.js": "^7.0.0"
