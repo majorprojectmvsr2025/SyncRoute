@@ -11,7 +11,6 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { ridesAPI, bookingsAPI } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
-import IntroAnimation from "@/components/IntroAnimation";
 import { ShinyText } from "@/components/ui/ShinyText";
 import { MarqueeTicker } from "@/components/ui/MarqueeTicker";
 import { UserAvatar } from "@/components/ui/UserAvatar";
@@ -120,20 +119,6 @@ const Index = () => {
   const [platformStats, setPlatformStats] = useState({ avgRating: 0, totalRides: 0, activeDrivers: 0 });
   const parallaxOffset = useParallax(0.3);
 
-  // Show intro animation only on first visit per session
-  const [showIntro, setShowIntro] = useState(() => {
-    return !sessionStorage.getItem("syncroute_intro_seen");
-  });
-
-  const handleIntroComplete = () => {
-    sessionStorage.setItem("syncroute_intro_seen", "1");
-    setShowIntro(false);
-    // Force a gentle reload to ensure clean state
-    setTimeout(() => {
-      window.location.reload();
-    }, 100);
-  };
-
   useEffect(() => {
     const isRelevant = (ride: any) => {
       // Show all rides that haven't departed yet
@@ -228,7 +213,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      {showIntro && <IntroAnimation onComplete={handleIntroComplete} />}
       <Navbar />
       <main className="flex-1">
 

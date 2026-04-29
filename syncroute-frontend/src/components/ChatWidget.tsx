@@ -98,32 +98,11 @@ const ChatWidget: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  // Hide chatbot during intro animation
-  const [showIntro, setShowIntro] = useState(() => {
-    return !sessionStorage.getItem("syncroute_intro_seen");
-  });
-
-  useEffect(() => {
-    const checkIntro = () => {
-      setShowIntro(!sessionStorage.getItem("syncroute_intro_seen"));
-    };
-    
-    // Check every 100ms if intro is complete
-    const interval = setInterval(checkIntro, 100);
-    
-    return () => clearInterval(interval);
-  }, []);
-
   const scrollEnd = useCallback(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, []);
 
   useEffect(() => { scrollEnd(); }, [msgs, scrollEnd]);
-
-  // Don't render if intro is showing
-  if (showIntro) {
-    return null;
-  }
 
   /* Welcome message */
   useEffect(() => {
