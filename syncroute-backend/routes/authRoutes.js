@@ -70,6 +70,8 @@ router.post("/register", async (req, res) => {
   try {
     const { name, email, password, phone, role } = req.body;
 
+    console.log(`[REGISTER] Starting registration for ${email}`);
+
     if (!name || !email || !password) {
       return res.status(400).json({ message: "Please provide all required fields" });
     }
@@ -79,6 +81,8 @@ router.post("/register", async (req, res) => {
     if (userExists) {
       // If user exists but not verified, allow resending OTP
       if (!userExists.verified) {
+        console.log(`[REGISTER] User ${email} exists but not verified, resending OTP`);
+        
         // Generate new OTP
         const otp = generateOTP();
         const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
@@ -90,10 +94,11 @@ router.post("/register", async (req, res) => {
 
         // Send OTP email
         try {
+          console.log(`[REGISTER] Sending OTP email to ${email}`);
           await sendOTPEmail(email, name, otp);
-          console.log(`📧 OTP resent to ${email}: ${otp}`);
+          console.log(`[REGISTER] ✅ OTP sent successfully to ${email}: ${otp}`);
         } catch (emailError) {
-          console.error("Email send error:", emailError);
+          console.error("[REGISTER] ❌ Email send error:", emailError);
           // Continue even if email fails - user can still verify
         }
 
@@ -107,11 +112,16 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({ message: "User already exists and is verified. Please login." });
     }
 
+    console.log(`[REGISTER] Creating new user for ${email}`);
+
     // Generate OTP
     const otp = generateOTP();
     const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
+    console.log(`[REGISTER] Generated OTP: ${otp}`);
+
     // Create unverified user
+    const startTime = Date.now();
     const user = await User.create({
       name,
       email: email.toLowerCase(),
@@ -123,15 +133,22 @@ router.post("/register", async (req, res) => {
       emailVerificationOTPExpires: otpExpires,
       emailVerificationAttempts: 0
     });
+    const createTime = Date.now() - startTime;
+    console.log(`[REGISTER] User created in ${createTime}ms`);
 
     // Send OTP email
     try {
+      console.log(`[REGISTER] Sending OTP email to ${email}`);
+      const emailStartTime = Date.now();
       await sendOTPEmail(email, name, otp);
-      console.log(`📧 OTP sent to ${email}: ${otp}`);
+      const emailTime = Date.now() - emailStartTime;
+      console.log(`[REGISTER] ✅ OTP sent successfully in ${emailTime}ms to ${email}: ${otp}`);
     } catch (emailError) {
-      console.error("Email send error:", emailError);
+      console.error("[REGISTER] ❌ Email send error:", emailError);
       // Continue even if email fails - user can still verify
     }
+
+    console.log(`[REGISTER] Registration complete for ${email}`);
 
     res.status(201).json({
       message: "Registration successful! Please check your email for the verification code.",
@@ -140,7 +157,7 @@ router.post("/register", async (req, res) => {
       userId: user._id
     });
   } catch (error) {
-    console.error("Registration error:", error);
+    console.error("[REGISTER] ❌ Registration error:", error);
     res.status(500).json({ error: error.message });
   }
 });

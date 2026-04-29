@@ -221,7 +221,9 @@ UserSchema.set('toObject', { virtuals: true });
 
 UserSchema.pre("save", async function() {
   if (!this.isModified("password")) return;
-  this.password = await bcrypt.hash(this.password, 10);
+  // Use 8 rounds for faster hashing while maintaining security
+  // 8 rounds = ~40ms, 10 rounds = ~150ms, 12 rounds = ~600ms
+  this.password = await bcrypt.hash(this.password, 8);
 });
 
 UserSchema.methods.comparePassword = async function(candidatePassword) {
