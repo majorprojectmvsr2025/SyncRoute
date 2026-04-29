@@ -1,6 +1,7 @@
 const express = require("express");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
+const sgMail = require("@sendgrid/mail");
 const User = require("../models/User");
 const { generateToken, protect } = require("../middleware/auth");
 
@@ -11,11 +12,52 @@ const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
 };
 
-// Helper function to send OTP email
+// Helper function to send OTP email using SendGrid API or SMTP fallback
 const sendOTPEmail = async (email, name, otp) => {
   const startTime = Date.now();
   console.log(`[EMAIL] Starting email send to ${email}`);
   
+  // Check if SendGrid API key is available (preferred - works on Render free tier)
+  if (process.env.SENDGRID_API_KEY) {
+    console.log(`[EMAIL] Using SendGrid API`);
+    
+    try {
+      sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+      
+      const msg = {
+        to: email,
+        from: process.env.EMAIL_FROM || "SyncRoute <noreply@syncroute.app>",
+        subject: "SyncRoute — Verify Your Email",
+        html: `
+          <div style="font-family: Inter, sans-serif; max-width: 480px; margin: 0 auto; background: #0f172a; color: #e2e8f0; padding: 32px; border-radius: 12px;">
+            <h2 style="color: #a78bfa; margin-bottom: 8px;">Welcome to SyncRoute!</h2>
+            <p style="color: #94a3b8; margin-bottom: 24px;">Hi ${name}, please verify your email address to complete your registration.</p>
+            <div style="background: #1e293b; padding: 24px; border-radius: 8px; text-align: center; margin-bottom: 24px;">
+              <p style="color: #64748b; font-size: 12px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;">Your verification code</p>
+              <p style="font-size: 36px; font-weight: 700; color: #a78bfa; letter-spacing: 8px; margin: 0;">${otp}</p>
+            </div>
+            <p style="color: #94a3b8; font-size: 14px; margin-bottom: 16px;">This code will expire in 10 minutes.</p>
+            <p style="color: #64748b; margin-top: 24px; font-size: 12px;">If you didn't create an account with SyncRoute, you can safely ignore this email.</p>
+          </div>
+        `
+      };
+      
+      console.log(`[EMAIL] Sending via SendGrid API to ${email}...`);
+      await sgMail.send(msg);
+      const duration = Date.now() - startTime;
+      console.log(`[EMAIL] ✅ Email sent successfully via SendGrid API in ${duration}ms`);
+      
+      return { messageId: 'sendgrid-api' };
+    } catch (error) {
+      console.error(`[EMAIL] ❌ SendGrid API error:`, error.message);
+      if (error.response) {
+        console.error(`[EMAIL] SendGrid response:`, error.response.body);
+      }
+      throw new Error(`SendGrid API failed: ${error.message}`);
+    }
+  }
+  
+  // Fallback to SMTP if no SendGrid API key
   let transporter;
   
   if (process.env.SMTP_HOST) {
