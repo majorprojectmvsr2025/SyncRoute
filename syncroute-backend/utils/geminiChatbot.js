@@ -16,7 +16,7 @@ try {
   
   if (apiKey) {
     genAI = new GoogleGenerativeAI(apiKey);
-    model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
     console.log("[GeminiAI] Initialized successfully with conversation support");
   } else {
     console.warn("[GeminiAI] No API key found - chatbot will use fallback mode");
