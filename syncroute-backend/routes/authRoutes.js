@@ -13,18 +13,42 @@ const generateOTP = () => {
 
 // Helper function to send OTP email
 const sendOTPEmail = async (email, name, otp) => {
+  const startTime = Date.now();
+  console.log(`[EMAIL] Starting email send to ${email}`);
+  
   let transporter;
   
   if (process.env.SMTP_HOST) {
+    console.log(`[EMAIL] Using SMTP: ${process.env.SMTP_HOST}:${process.env.SMTP_PORT}`);
+    console.log(`[EMAIL] SMTP User: ${process.env.SMTP_USER}`);
+    
     transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: parseInt(process.env.SMTP_PORT || "587"),
+      secure: false, // Use TLS
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS
-      }
+      },
+      tls: {
+        rejectUnauthorized: false // Accept self-signed certificates
+      },
+      connectionTimeout: 10000, // 10 second timeout
+      greetingTimeout: 10000,
+      socketTimeout: 10000
     });
+    
+    // Verify SMTP connection
+    try {
+      console.log(`[EMAIL] Verifying SMTP connection...`);
+      await transporter.verify();
+      console.log(`[EMAIL] ✅ SMTP connection verified`);
+    } catch (verifyError) {
+      console.error(`[EMAIL] ❌ SMTP verification failed:`, verifyError.message);
+      throw new Error(`SMTP connection failed: ${verifyError.message}`);
+    }
   } else {
+    console.log(`[EMAIL] Using Ethereal test account`);
     // Ethereal dev account for testing
     const testAccount = await nodemailer.createTestAccount();
     transporter = nodemailer.createTransport({
@@ -55,7 +79,11 @@ const sendOTPEmail = async (email, name, otp) => {
     `
   };
 
+  console.log(`[EMAIL] Sending email to ${email}...`);
   const info = await transporter.sendMail(mailOptions);
+  const duration = Date.now() - startTime;
+  console.log(`[EMAIL] ✅ Email sent successfully in ${duration}ms`);
+  console.log(`[EMAIL] Message ID: ${info.messageId}`);
 
   // Log preview URL in dev
   if (!process.env.SMTP_HOST) {
