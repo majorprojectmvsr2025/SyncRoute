@@ -92,21 +92,24 @@ router.post("/register", async (req, res) => {
         userExists.emailVerificationAttempts = 0;
         await userExists.save({ validateBeforeSave: false });
 
-        // Send OTP email
-        try {
-          console.log(`[REGISTER] Sending OTP email to ${email}`);
-          await sendOTPEmail(email, name, otp);
-          console.log(`[REGISTER] ✅ OTP sent successfully to ${email}: ${otp}`);
-        } catch (emailError) {
-          console.error("[REGISTER] ❌ Email send error:", emailError);
-          // Continue even if email fails - user can still verify
-        }
-
-        return res.status(200).json({
+        // Send response immediately, then send email in background
+        res.status(200).json({
           message: "Account already exists but not verified. New OTP sent to your email.",
           requiresVerification: true,
           email: email
         });
+
+        // Send OTP email asynchronously (don't await)
+        console.log(`[REGISTER] Sending OTP email to ${email} (async)`);
+        sendOTPEmail(email, name, otp)
+          .then(() => {
+            console.log(`[REGISTER] ✅ OTP sent successfully to ${email}: ${otp}`);
+          })
+          .catch((emailError) => {
+            console.error("[REGISTER] ❌ Email send error:", emailError);
+          });
+
+        return;
       }
       
       return res.status(400).json({ message: "User already exists and is verified. Please login." });
@@ -136,26 +139,26 @@ router.post("/register", async (req, res) => {
     const createTime = Date.now() - startTime;
     console.log(`[REGISTER] User created in ${createTime}ms`);
 
-    // Send OTP email
-    try {
-      console.log(`[REGISTER] Sending OTP email to ${email}`);
-      const emailStartTime = Date.now();
-      await sendOTPEmail(email, name, otp);
-      const emailTime = Date.now() - emailStartTime;
-      console.log(`[REGISTER] ✅ OTP sent successfully in ${emailTime}ms to ${email}: ${otp}`);
-    } catch (emailError) {
-      console.error("[REGISTER] ❌ Email send error:", emailError);
-      // Continue even if email fails - user can still verify
-    }
-
     console.log(`[REGISTER] Registration complete for ${email}`);
 
+    // Send response immediately
     res.status(201).json({
       message: "Registration successful! Please check your email for the verification code.",
       requiresVerification: true,
       email: user.email,
       userId: user._id
     });
+
+    // Send OTP email asynchronously (don't await) - this happens AFTER response is sent
+    console.log(`[REGISTER] Sending OTP email to ${email} (async)`);
+    sendOTPEmail(email, name, otp)
+      .then(() => {
+        console.log(`[REGISTER] ✅ OTP sent successfully to ${email}: ${otp}`);
+      })
+      .catch((emailError) => {
+        console.error("[REGISTER] ❌ Email send error:", emailError);
+      });
+
   } catch (error) {
     console.error("[REGISTER] ❌ Registration error:", error);
     res.status(500).json({ error: error.message });
@@ -275,19 +278,22 @@ router.post("/resend-otp", async (req, res) => {
     user.emailVerificationAttempts = 0;
     await user.save({ validateBeforeSave: false });
 
-    // Send OTP email
-    try {
-      await sendOTPEmail(email, user.name, otp);
-      console.log(`📧 OTP resent to ${email}: ${otp}`);
-    } catch (emailError) {
-      console.error("Email send error:", emailError);
-      return res.status(500).json({ message: "Failed to send OTP email" });
-    }
-
+    // Send response immediately
     res.json({
       message: "New OTP sent to your email",
       email: user.email
     });
+
+    // Send OTP email asynchronously (don't await)
+    console.log(`[RESEND-OTP] Sending OTP email to ${email} (async)`);
+    sendOTPEmail(email, user.name, otp)
+      .then(() => {
+        console.log(`[RESEND-OTP] ✅ OTP resent to ${email}: ${otp}`);
+      })
+      .catch((emailError) => {
+        console.error("[RESEND-OTP] ❌ Email send error:", emailError);
+      });
+
   } catch (error) {
     console.error("Resend OTP error:", error);
     res.status(500).json({ error: error.message });
